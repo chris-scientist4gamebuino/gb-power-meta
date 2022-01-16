@@ -10,5 +10,5 @@ class PlayersView {
   private:
     PlayersView();
   public:
-    static void rendering(const Player aPlayerOne, const Player aPlayerTwo, GameCommands * commands);
+    static void rendering(const Player aPlayerOne, const Player aPlayerTwo, const TokenDuringTheGame token);
 };

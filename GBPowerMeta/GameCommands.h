@@ -5,11 +5,14 @@
 
 #include <Arduino.h>
 
+#include "TokenDuringTheGame.h"
+
 class GameController;
 
 class GameCommands {
   private:
     GameController * gameController;
+    TokenDuringTheGame token;
     const uint8_t playerOneIndex;
     const uint8_t playerTwoIndex;
     const uint8_t moveTokenToTheLeft;
@@ -19,11 +22,8 @@ class GameCommands {
     const uint8_t maxColTokenIndex;
     const uint8_t maxRowTokenIndex;
     uint8_t currentPlayerIndex;
-    uint8_t colIndexPlayed;
     uint8_t way;
-    uint8_t rowTokenIndex;
     bool hasPlay;
-    bool moveTokenInProgress;
     void changePlayer();
     void getPlayerInput();
     void play();
@@ -34,7 +34,5 @@ class GameCommands {
     void setGameController(GameController * aGameController);
     const bool isPlayerOnePlayed() const;
     const bool isPlayerTwoPlayed() const;
-    const uint8_t getColIndexPlayed() const;
-    const uint8_t getRowIndex() const;
-    const uint8_t isPlayInProgress() const;
+    const TokenDuringTheGame getTokenDuringTheGame() const;
 };

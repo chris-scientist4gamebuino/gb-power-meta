@@ -1,5 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
+// updated at: 16/01/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -24,7 +25,7 @@ void GameController::run() {
     this->boardAnimation.run();
   }*/
   this->commands.management();
-  GameView::rendering((GameController *)this, &(this->commands));
+  GameView::rendering((GameController *)this, this->commands.getTokenDuringTheGame());
 }
 
 GameBoard * GameController::getBoardModel() {
