@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 16/01/2022
-// updated at: 17/01/2022
+// updated at: 18/01/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -39,7 +39,6 @@ void GameCommands::management() {
 }
 
 void GameCommands::getPlayerInput() {
-  uint8_t maxTokenIndex = (NB_COL_OF_BOARD - 1);
   if(gb.buttons.pressed(BUTTON_A)) {
     this->way = GameCommands::NO_TOKEN_MOVE;
     this->hasPlay = true;
