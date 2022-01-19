@@ -30,7 +30,7 @@ void TokenDuringTheGame::moveTokenOnNextLocation() {
 }
 
 void TokenDuringTheGame::moveTokenAtTheTop() {
-  this->rowIndex = GameBoard::MAX_ROW_TOKEN_INDEX;
+  this->rowIndex = GameBoard::MAX_ROW_TOKEN_INDEX + 1;
 }
 
 void TokenDuringTheGame::moveTokenOnPreviousVerticalLocation() {
@@ -40,7 +40,7 @@ void TokenDuringTheGame::moveTokenOnPreviousVerticalLocation() {
 }
 
 void TokenDuringTheGame::moveTokenOnNextVerticalLocation() {
-  if(this->rowIndex > 1) {
+  if(this->rowIndex > 0) {
     this->rowIndex--;
   }
 }

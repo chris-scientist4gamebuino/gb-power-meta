@@ -1,12 +1,13 @@
 // author: chris-scientist
 // created at: 16/01/2022
-// updated at: 18/01/2022
+// updated at: 19/01/2022
 
 #include <Gamebuino-Meta.h>
 
 #include "GameCommands.h"
 
 #include "GameController.h"
+#include "Debug.h"
 
 const uint8_t GameCommands::NO_TOKEN_MOVE             = 0;
 const uint8_t GameCommands::MOVE_TOKEN_TO_THE_LEFT    = 1;
@@ -39,6 +40,7 @@ void GameCommands::management() {
 }
 
 void GameCommands::getPlayerInput() {
+  Debug::getInstance()->addDebug(GREEN, Debug::INDEX_GET_PLAYER_INPUT);
   if(gb.buttons.pressed(BUTTON_A)) {
     this->way = GameCommands::NO_TOKEN_MOVE;
     this->hasPlay = true;
@@ -54,7 +56,7 @@ void GameCommands::getPlayerInput() {
     } else {
       this->token.moveTokenOnNextLocation();
     }
-    if( this->gameController->getBoardModel()->getToken(this->token.getRowIndex(), this->token.getColIndex()).hasNotToken() ) {
+    if( this->gameController->getBoardModel()->getToken(this->token.getRowIndex() - 1, this->token.getColIndex()).hasNotToken() ) {
       this->way = GameCommands::NO_TOKEN_MOVE;
     }
   }
@@ -62,6 +64,7 @@ void GameCommands::getPlayerInput() {
 
 void GameCommands::play() {
   if( ! this->token.hasPlayed() ) {
+    Debug::getInstance()->addDebug(BLUE, Debug::INDEX_PLAY_LOOP_AND_TOKEN_PLAYED);
     //
     //
     this->gameController->getBoardModel()->setToken(
@@ -85,12 +88,14 @@ void GameCommands::play() {
     this->hasPlay = false;
     this->resetTokenLocation();
   } else {
+    Debug::getInstance()->addDebug(RED, Debug::INDEX_PLAY_LOOP_AND_FALL_TOKEN_ANIMATION);
     this->fallOneTokenAnimation.run();
   }
 }
 
 void GameCommands::resetTokenLocation() {
   this->token.moveTokenAtTheTop();
+  this->token.moveTokenOnNextVerticalLocation();
   this->token.moveTokenAtMiddleLocation();
   while( ! this->gameController->getBoardModel()->getToken(this->token.getRowIndex(), this->token.getColIndex()).hasNotToken() ) {
     this->token.moveTokenOnNextLocation();
@@ -98,6 +103,7 @@ void GameCommands::resetTokenLocation() {
       return ;
     }
   }
+  this->token.moveTokenOnPreviousVerticalLocation();
 }
 
 void GameCommands::setGameController(GameController * aGameController) {

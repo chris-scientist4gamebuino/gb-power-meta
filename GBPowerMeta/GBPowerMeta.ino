@@ -1,15 +1,18 @@
 // author: chris-scientist
 // created at: 14/01/2022
+// updated at: 19/01/2022
 
 #include <Gamebuino-Meta.h>
 #include "Constants.h"
 #include "GameController.h"
 #include "GameBoard.h"
+#include "Debug.h"
 
 GameController game;
 
 void setup() {
   gb.begin();
+  Debug::getInstance()->initialize();
   game.initialize();
 }
 
