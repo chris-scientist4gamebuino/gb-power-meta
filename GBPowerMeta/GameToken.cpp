@@ -30,3 +30,7 @@ const bool GameToken::isUndefinedToken() const {
 const uint8_t GameToken::getType() const {
   return this->typeOfToken;
 }
+
+const bool GameToken::equalTo(const GameToken anOtherToken) const {
+  return ( this->typeOfToken == anOtherToken.getType() );
+}

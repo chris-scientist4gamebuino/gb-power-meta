@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 16/01/2022
-// updated at: 19/01/2022
+// updated at: 22/01/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -21,6 +21,7 @@ GameCommands::GameCommands()
 void GameCommands::initialize() {
   this->way = GameCommands::NO_TOKEN_MOVE;
   this->hasPlay = false;
+  this->nbTimes = 0;
   this->token.setOwnerEqualPlayerTwo( ! TokenDuringTheGame::OWNER_PLAYER_TWO );
   this->token.moveTokenAtMiddleLocation();
   this->token.moveTokenAtTheTop();
@@ -28,14 +29,17 @@ void GameCommands::initialize() {
   this->fallOneTokenAnimation.setToken(&(this->token));
 }
 
-void GameCommands::management() {
+void GameCommands::management(GameStatus aStatusOfGame) {
   //
   // Stop if no controller
   if(this->gameController == NULL) { return ; }
   //
   // Commands management
-  if(this->hasPlay) { this->play(); } 
-  else {              this->getPlayerInput(); }
+  if( this->nbTimes == 0 ) {
+    bool isTheEnd = aStatusOfGame.isVictoryOrTie();
+    if(this->hasPlay || isTheEnd) { this->play(); this->nbTimes = (isTheEnd ? 1 : 0); } 
+    else {                          this->getPlayerInput(); }
+  }
   //
 }
 
@@ -112,3 +116,4 @@ void GameCommands::setGameController(GameController * aGameController) {
 }
 
 const TokenDuringTheGame GameCommands::getTokenDuringTheGame() const {  return this->token; }
+const bool GameCommands::isGameInProgress() const { return ( this->hasPlay && this->token.hasPlayed() ); }

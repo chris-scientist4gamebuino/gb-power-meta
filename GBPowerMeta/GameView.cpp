@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 16/01/2022
+// updated at: 20/01/2022
 
 #include "GameView.h"
 
@@ -10,9 +10,9 @@
 
 GameView::GameView() {}
 
-void GameView::rendering(GameController * gameController, const TokenDuringTheGame token) {
+void GameView::rendering(GameController * gameController, const TokenDuringTheGame token, GameStatus aStatusOfGame) {
   // Game board rendering
   GameBoardView::rendering(gameController->getBoardModel());
   // Players rendering
-  PlayersView::rendering(gameController->getPlayerOne(), gameController->getPlayerTwo(), token);
+  PlayersView::rendering(gameController->getPlayerOne(), gameController->getPlayerTwo(), token, aStatusOfGame);
 }

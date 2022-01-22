@@ -17,4 +17,5 @@ class GameToken {
     const bool isYellowToken() const;
     const bool isUndefinedToken() const;
     const uint8_t getType() const;
+    const bool equalTo(const GameToken anOtherToken) const;
 };

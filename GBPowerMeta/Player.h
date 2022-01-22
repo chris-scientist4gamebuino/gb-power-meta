@@ -13,5 +13,5 @@ class Player {
   public:
     Player();
     void setToken(uint8_t aToken);
-    GameToken getToken() const;
+    const GameToken getToken() const;
 };

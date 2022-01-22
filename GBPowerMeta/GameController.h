@@ -1,5 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
+// updated at: 22/01/2022
 
 #pragma once
 
@@ -17,6 +18,7 @@ class GameController {
     Player playerTwo;
     GameBoardAnimation boardAnimation;
     GameCommands commands;
+    GameStatus statusOfGame;
   public:
     GameController();
     void initialize();

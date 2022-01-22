@@ -11,6 +11,6 @@ void Player::setToken(uint8_t aToken) {
   this->token = aToken;
 }
 
-GameToken Player::getToken() const {
+const GameToken Player::getToken() const {
   return GameToken(this->token);
 }
