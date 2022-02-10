@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 15/01/2022
-// updated at: 23/01/2022
+// updated at: 10/02/2022
 
 #include <Arduino.h>
 
@@ -51,9 +51,9 @@ void PlayersView::rendering(const Player aPlayerOne, const Player aPlayerTwo, co
       currentPlayer = aPlayerTwo;
     }
     gb.display.setColor(GameTokenView::getColor(currentPlayer.getToken()));
-    if( ! aState.isFallTokenInProgress() ) {
+    if( aState.isGetPlayerInput() ) {
       gb.display.fillCircle(26+((8+5)*(token.getColIndex()+1)), 26, radius);
-    } else {
+    } else if(aState.isFallTokenInProgress()) {
       gb.display.fillCircle(26+(offset*(token.getColIndex()+1)), 128-(offset*token.getRowIndex()), radius);
     }
   }
