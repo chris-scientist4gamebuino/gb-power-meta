@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 20/01/2022
-// updated at: 22/01/2022
+// updated at: 11/02/2022
 
 #include "GameStatus.h"
 
@@ -9,15 +9,18 @@ GameStatus::GameStatus() {
 }
 
 void GameStatus::triggerVictory(Player * aPlayerWhoWin) {
+  this->resetAllFlag();
   this->isVictoryFlag = true;
   this->playerWhoWin = aPlayerWhoWin;
 }
 
 void GameStatus::triggerTie() {
+  this->resetAllFlag();
   this->isTieFlag = true;
 }
 
 void GameStatus::triggerNotFinish() {
+  this->resetAllFlag();
   this->isNotFinishFlag = true;
 }
 

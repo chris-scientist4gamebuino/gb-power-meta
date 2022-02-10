@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 10/02/2022
+// updated at: 11/02/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -22,6 +22,7 @@ void GameController::initialize() {
   this->commands.initialize();
   this->state.triggerGetPlayerInput();
   this->statusOfGame.triggerNotFinish();
+  this->boardModel.reset();
 }
 
 void GameController::run() {
