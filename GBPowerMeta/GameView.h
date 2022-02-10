@@ -6,6 +6,7 @@
 
 #include "TokenDuringTheGame.h"
 #include "GameStatus.h"
+#include "GameState.h"
 
 class GameController;
 
@@ -13,5 +14,5 @@ class GameView {
   private:
     GameView();
   public:
-    static void rendering(GameController * gameController, const TokenDuringTheGame token, GameStatus aStatusOfGame);
+    static void rendering(GameController * gameController, const TokenDuringTheGame token, GameState aState, GameStatus aStatusOfGame);
 };

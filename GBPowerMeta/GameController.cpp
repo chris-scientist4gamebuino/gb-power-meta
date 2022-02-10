@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 22/01/2022
+// updated at: 10/02/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -20,6 +20,7 @@ void GameController::initialize() {
   this->playerOne.setToken(tokenForPlayerOne);
   this->playerTwo.setToken(tokenForPlayerOne == (uint8_t)YELLOW_TOKEN ? RED_TOKEN : YELLOW_TOKEN);
   this->commands.initialize();
+  this->state.triggerGetPlayerInput();
   this->statusOfGame.triggerNotFinish();
 }
 
@@ -27,13 +28,43 @@ void GameController::run() {
   /*if(gb.frameCount % 24 == 0) {
     this->boardAnimation.run();
   }*/
-  if( ! this->commands.isGameInProgress() && this->statusOfGame.isNotFinish() ) {
-    TokenDuringTheGame currentToken = this->commands.getTokenDuringTheGame();
-    Player * currentPlayer = &(currentToken.isOwnerEqualPlayerOne() ? this->playerOne : this->playerTwo);
-    this->statusOfGame = CheckGameStatus::run(currentToken, this->boardModel, currentPlayer);
+  
+  if(this->state.isPlayToken()) {                   this->play(); } 
+  else if(this->state.isFallTokenInProgress()) {    this->commands.fallToken(); }
+  else if(this->state.isGetPlayerInput()) {         this->commands.management(); }
+  else if(this->state.isCheckGameStatus()) {        this->checkGameStatus(); }
+
+  GameView::rendering((GameController *)this, this->commands.getTokenDuringTheGame(), this->state, this->statusOfGame);
+}
+
+void GameController::play() {
+  const TokenDuringTheGame token = this->commands.getTokenDuringTheGame();
+  //
+  //
+  this->boardModel.setToken(
+    token.getRowIndex(), 
+    token.getColIndex(), 
+    this->getCurrentPlayer()->getToken()
+  );
+  //
+  // Next state
+  this->state.triggerCheckGameStatus();
+}
+
+void GameController::checkGameStatus() {
+  const TokenDuringTheGame token = this->commands.getTokenDuringTheGame();
+  this->statusOfGame.update( CheckGameStatus::run(token, this->boardModel, this->getCurrentPlayer()) );
+  if(this->statusOfGame.isVictoryOrTie()) {
+    this->state.triggerTheEnd();
+  } else {
+    this->state.triggerGetPlayerInput();
+    //
+    // Change current player
+    this->commands.changePlayer();
+    //
+    // Reset token position for new current player
+    this->commands.resetTokenLocation();
   }
-  this->commands.management(statusOfGame);
-  GameView::rendering((GameController *)this, this->commands.getTokenDuringTheGame(), statusOfGame);
 }
 
 GameBoard * GameController::getBoardModel() {
@@ -47,3 +78,10 @@ Player GameController::getPlayerOne() const {
 Player GameController::getPlayerTwo() const {
   return this->playerTwo;
 }
+
+Player * GameController::getCurrentPlayer() {
+  const TokenDuringTheGame token = this->commands.getTokenDuringTheGame();
+  return &(token.isOwnerEqualPlayerOne() ? this->playerOne : this->playerTwo);
+}
+
+GameState * GameController::getState() {  return &(this->state); }

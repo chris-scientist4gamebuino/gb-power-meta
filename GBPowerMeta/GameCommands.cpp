@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 16/01/2022
-// updated at: 22/01/2022
+// updated at: 23/01/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -20,35 +20,23 @@ GameCommands::GameCommands()
 
 void GameCommands::initialize() {
   this->way = GameCommands::NO_TOKEN_MOVE;
-  this->hasPlay = false;
   this->nbTimes = 0;
   this->token.setOwnerEqualPlayerTwo( ! TokenDuringTheGame::OWNER_PLAYER_TWO );
   this->token.moveTokenAtMiddleLocation();
   this->token.moveTokenAtTheTop();
-  this->token.setHasPlayed( ! TokenDuringTheGame::HAS_PLAYED );
   this->fallOneTokenAnimation.setToken(&(this->token));
 }
 
-void GameCommands::management(GameStatus aStatusOfGame) {
+void GameCommands::management() {
   //
   // Stop if no controller
   if(this->gameController == NULL) { return ; }
   //
   // Commands management
-  if( this->nbTimes == 0 ) {
-    bool isTheEnd = aStatusOfGame.isVictoryOrTie();
-    if(this->hasPlay || isTheEnd) { this->play(); this->nbTimes = (isTheEnd ? 1 : 0); } 
-    else {                          this->getPlayerInput(); }
-  }
-  //
-}
-
-void GameCommands::getPlayerInput() {
   Debug::getInstance()->addDebug(GREEN, Debug::INDEX_GET_PLAYER_INPUT);
   if(gb.buttons.pressed(BUTTON_A)) {
     this->way = GameCommands::NO_TOKEN_MOVE;
-    this->hasPlay = true;
-    this->token.setHasPlayed( TokenDuringTheGame::HAS_PLAYED );
+    this->gameController->getState()->triggerFallTokenInProgress();
   } else if(gb.buttons.pressed(BUTTON_LEFT)) {
     this->way = GameCommands::MOVE_TOKEN_TO_THE_LEFT;
   } else if(gb.buttons.pressed(BUTTON_RIGHT)) {
@@ -66,34 +54,21 @@ void GameCommands::getPlayerInput() {
   }
 }
 
-void GameCommands::play() {
-  if( ! this->token.hasPlayed() ) {
-    Debug::getInstance()->addDebug(BLUE, Debug::INDEX_PLAY_LOOP_AND_TOKEN_PLAYED);
-    //
-    //
-    this->gameController->getBoardModel()->setToken(
-      this->token.getRowIndex(), 
-      this->token.getColIndex(), 
-      (
-        this->token.isOwnerEqualPlayerOne() ? 
-        this->gameController->getPlayerOne().getToken() : 
-        this->gameController->getPlayerTwo().getToken()
-      )
-    );
-    //
-    // Change current player
-    if(this->token.isOwnerEqualPlayerOne()) {
-      this->token.setOwnerEqualPlayerTwo( TokenDuringTheGame::OWNER_PLAYER_TWO );
-    } else {
-      this->token.setOwnerEqualPlayerTwo( ! TokenDuringTheGame::OWNER_PLAYER_TWO );
-    }
-    //
-    // Reset token position for new current player
-    this->hasPlay = false;
-    this->resetTokenLocation();
+void GameCommands::setGameController(GameController * aGameController) {
+  this->gameController = aGameController;
+  this->fallOneTokenAnimation.setBoardModel(this->gameController->getBoardModel());
+  this->fallOneTokenAnimation.setGameState(this->gameController->getState());
+}
+
+void GameCommands::fallToken() {
+  this->fallOneTokenAnimation.run();
+}
+
+void GameCommands::changePlayer() {
+  if(this->token.isOwnerEqualPlayerOne()) {
+    this->token.setOwnerEqualPlayerTwo( TokenDuringTheGame::OWNER_PLAYER_TWO );
   } else {
-    Debug::getInstance()->addDebug(RED, Debug::INDEX_PLAY_LOOP_AND_FALL_TOKEN_ANIMATION);
-    this->fallOneTokenAnimation.run();
+    this->token.setOwnerEqualPlayerTwo( ! TokenDuringTheGame::OWNER_PLAYER_TWO );
   }
 }
 
@@ -110,10 +85,4 @@ void GameCommands::resetTokenLocation() {
   this->token.moveTokenOnPreviousVerticalLocation();
 }
 
-void GameCommands::setGameController(GameController * aGameController) {
-  this->gameController = aGameController;
-  this->fallOneTokenAnimation.setBoardModel(this->gameController->getBoardModel());
-}
-
 const TokenDuringTheGame GameCommands::getTokenDuringTheGame() const {  return this->token; }
-const bool GameCommands::isGameInProgress() const { return ( this->hasPlay && this->token.hasPlayed() ); }

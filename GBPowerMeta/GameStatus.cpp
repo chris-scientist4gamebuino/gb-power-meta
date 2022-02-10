@@ -21,10 +21,18 @@ void GameStatus::triggerNotFinish() {
   this->isNotFinishFlag = true;
 }
 
+void GameStatus::update(GameStatus aStatus) {
+  this->isTieFlag = aStatus.isTie();
+  this->isVictoryFlag = aStatus.isVictory();
+  this->isNotFinishFlag = aStatus.isNotFinish();
+  this->playerWhoWin = aStatus.getPlayerWhoWin();
+}
+
 void GameStatus::resetAllFlag() {
   this->isTieFlag = false;
   this->isVictoryFlag = false;
   this->isNotFinishFlag = false;
+  this->playerWhoWin = NULL;
 }
 
 const bool GameStatus::isTie() const {            return this->isTieFlag; }

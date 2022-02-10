@@ -21,6 +21,7 @@ class GameStatus {
     void triggerVictory(Player * aPlayerWhoWin);
     void triggerTie();
     void triggerNotFinish();
+    void update(GameStatus aStatus);
     const bool isTie() const;
     const bool isVictory() const;
     const bool isNotFinish() const;

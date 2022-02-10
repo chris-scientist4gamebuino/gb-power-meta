@@ -10,9 +10,9 @@
 
 GameView::GameView() {}
 
-void GameView::rendering(GameController * gameController, const TokenDuringTheGame token, GameStatus aStatusOfGame) {
+void GameView::rendering(GameController * gameController, const TokenDuringTheGame token, GameState aState, GameStatus aStatusOfGame) {
   // Game board rendering
   GameBoardView::rendering(gameController->getBoardModel());
   // Players rendering
-  PlayersView::rendering(gameController->getPlayerOne(), gameController->getPlayerTwo(), token, aStatusOfGame);
+  PlayersView::rendering(gameController->getPlayerOne(), gameController->getPlayerTwo(), token, aState, aStatusOfGame);
 }

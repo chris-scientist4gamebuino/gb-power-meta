@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 15/01/2022
-// updated at: 20/01/2022
+// updated at: 23/01/2022
 
 #include <Arduino.h>
 
@@ -10,7 +10,7 @@
 
 PlayersView::PlayersView() {}
 
-void PlayersView::rendering(const Player aPlayerOne, const Player aPlayerTwo, const TokenDuringTheGame token, GameStatus aStatusOfGame) {
+void PlayersView::rendering(const Player aPlayerOne, const Player aPlayerTwo, const TokenDuringTheGame token, GameState aState, GameStatus aStatusOfGame) {
   uint8_t radius = 5;
   uint8_t yOffset = (128 - (8 + radius));
   uint8_t w = gb.display.getFontWidth();
@@ -51,7 +51,7 @@ void PlayersView::rendering(const Player aPlayerOne, const Player aPlayerTwo, co
       currentPlayer = aPlayerTwo;
     }
     gb.display.setColor(GameTokenView::getColor(currentPlayer.getToken()));
-    if( ! token.hasPlayed() ) {
+    if( ! aState.isFallTokenInProgress() ) {
       gb.display.fillCircle(26+((8+5)*(token.getColIndex()+1)), 26, radius);
     } else {
       gb.display.fillCircle(26+(offset*(token.getColIndex()+1)), 128-(offset*token.getRowIndex()), radius);

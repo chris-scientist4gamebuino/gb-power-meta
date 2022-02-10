@@ -11,7 +11,7 @@ CheckGameStatus::CheckGameStatus() {}
 GameStatus CheckGameStatus::run(TokenDuringTheGame aCurrentToken, const GameBoard aBoardModel, Player * aCurrentPlayer) {
   GameStatus gameStatus = CheckTokenLocation::getInstance()->checkIfVictory(aCurrentToken.getRowIndex(), aCurrentToken.getColIndex(), aBoardModel, aCurrentPlayer);
   if( gameStatus.isNotFinish()) {
-    gameStatus = BoardComplete::checkIfTie(aBoardModel);
+    gameStatus.update( BoardComplete::checkIfTie(aBoardModel) );
   }
   return gameStatus;
 }
