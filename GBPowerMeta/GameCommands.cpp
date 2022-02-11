@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 16/01/2022
-// updated at: 23/01/2022
+// updated at: 11/02/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -38,10 +38,20 @@ void GameCommands::management() {
     this->way = GameCommands::NO_TOKEN_MOVE;
     this->gameController->getState()->triggerFallTokenInProgress();
   } else if(gb.buttons.pressed(BUTTON_LEFT)) {
-    this->way = GameCommands::MOVE_TOKEN_TO_THE_LEFT;
+    if(this->settingController->isReverseCommand()) {
+      this->way = GameCommands::MOVE_TOKEN_TO_THE_RIGHT;
+    } else {
+      this->way = GameCommands::MOVE_TOKEN_TO_THE_LEFT;
+    }
   } else if(gb.buttons.pressed(BUTTON_RIGHT)) {
-    this->way = GameCommands::MOVE_TOKEN_TO_THE_RIGHT;
+    if(this->settingController->isReverseCommand()) {
+      this->way = GameCommands::MOVE_TOKEN_TO_THE_LEFT;
+    } else {
+      this->way = GameCommands::MOVE_TOKEN_TO_THE_RIGHT;
+    }
   }
+  //
+  // Move token at the next location
   while(this->way != GameCommands::NO_TOKEN_MOVE) {
     if(this->way == GameCommands::MOVE_TOKEN_TO_THE_LEFT) {
       this->token.moveTokenOnPreviousLocation();
@@ -58,6 +68,10 @@ void GameCommands::setGameController(GameController * aGameController) {
   this->gameController = aGameController;
   this->fallOneTokenAnimation.setBoardModel(this->gameController->getBoardModel());
   this->fallOneTokenAnimation.setGameState(this->gameController->getState());
+}
+
+void GameCommands::setSettingController(SettingController * aSettingController) {
+  this->settingController = aSettingController;
 }
 
 void GameCommands::fallToken() {
@@ -77,7 +91,11 @@ void GameCommands::resetTokenLocation() {
   this->token.moveTokenOnNextVerticalLocation();
   this->token.moveTokenAtMiddleLocation();
   while( ! this->gameController->getBoardModel()->getToken(this->token.getRowIndex(), this->token.getColIndex()).hasNotToken() ) {
-    this->token.moveTokenOnNextLocation();
+    if(this->settingController->isReverseCommand()) {
+      this->token.moveTokenOnPreviousLocation();
+    } else {
+      this->token.moveTokenOnNextLocation();
+    }
     if(this->token.getColIndex() == TokenDuringTheGame::MIDDLE_POSITION) {
       return ;
     }

@@ -68,6 +68,8 @@ void GameController::checkGameStatus() {
   }
 }
 
+void GameController::setSettingController(SettingController * aSettingController) { this->commands.setSettingController(aSettingController); } 
+
 GameBoard * GameController::getBoardModel() {
   return &(this->boardModel);
 }

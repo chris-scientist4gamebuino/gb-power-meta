@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 23/01/2022
+// updated at: 11/02/2022
 
 #pragma once
 
@@ -12,6 +12,7 @@
 #include "GameView.h"
 #include "Player.h"
 #include "GameBoardAnimation.h"
+#include "SettingController.h"
 
 class GameController {
   private:
@@ -29,6 +30,7 @@ class GameController {
     GameController();
     void initialize();
     void run();
+    void setSettingController(SettingController * aSettingController);
     GameBoard * getBoardModel();
     Player getPlayerOne() const;
     Player getPlayerTwo() const;
