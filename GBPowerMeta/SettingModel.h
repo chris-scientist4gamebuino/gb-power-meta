@@ -1,5 +1,6 @@
 // author: chris-scientist
 // created at: 11/02/2022
+// updated at: 18/02/2022
 
 #pragma once
 
@@ -16,4 +17,5 @@ class SettingModel {
     void reverseOn();
     void reverseOff();
     const bool isReverse() const;
+    const bool compareReverseFlag(const SettingModel anOtherSettingModel) const;
 };

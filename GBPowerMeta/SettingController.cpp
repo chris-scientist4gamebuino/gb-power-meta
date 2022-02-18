@@ -16,7 +16,9 @@ void SettingController::run() {
   else if(this->settingState.isValidCommandAndGoToBack()) {   this->validCommandAndGoToBack(); }
   else {                                                      this->commands.management(); }
 
-  SettingView::rendering( this->commands.getTmpSettingModel() );
+  const bool isReverseFlagChanged = ( ! this->commands.getTmpSettingModel().compareReverseFlag(this->appSetting) );
+
+  SettingView::rendering( this->commands.getTmpSettingModel(), isReverseFlagChanged );
 }
 
 void SettingController::resetLocalState() {

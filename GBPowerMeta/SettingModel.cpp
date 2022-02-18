@@ -1,5 +1,6 @@
 // author: chris-scientist
 // created at: 11/02/2022
+// updated at: 18/02/2022
 
 #include "SettingModel.h"
 
@@ -12,3 +13,7 @@ void SettingModel::reverseOn() { this->isReverseFlag = SettingModel::REVERSE_COM
 void SettingModel::reverseOff() { this->isReverseFlag = ( ! SettingModel::REVERSE_COMMANDS ); }
 
 const bool SettingModel::isReverse() const { return this->isReverseFlag; }
+
+const bool SettingModel::compareReverseFlag(const SettingModel anOtherSettingModel) const {
+  return ( this->isReverseFlag == anOtherSettingModel.isReverse() );
+}
