@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 11/02/2022
+// updated at: 18/02/2022
 
 #include <Arduino.h>
 #include <Gamebuino-Meta.h>
@@ -10,9 +10,15 @@
 PowerMetaApp::PowerMetaApp() {}
 
 void PowerMetaApp::initialize() {
+  // initialize menu
+  this->menu.initialize(2);
+  this->menu.setActive(MenuUI::PLAY_2P_ITEM_INDEX, MenuUI::FIRST_PAGE_INDEX);
+  this->menu.setActive(MenuUI::SETTINGS_ITEM_INDEX, MenuUI::SECOND_PAGE_INDEX);
+  //
   this->appState.triggerGoToHome();
   this->settingController.setAppState( &(this->appState) );
-  this->gameController.setSettingController( &(this->settingController) );  
+  this->settingController.setMenu( &(this->menu) );
+  this->gameController.setSettingController( &(this->settingController) );
 }
 
 void PowerMetaApp::run() {
@@ -25,24 +31,16 @@ void PowerMetaApp::run() {
 
 void PowerMetaApp::home() {
   // Home Screen
-  char playText[] = "Press <A> to play";
-  char settingText[] = "Press <B> to setting";
-  size_t length = sizeof(playText)/sizeof(*playText);
-  size_t lengthSettingText = sizeof(settingText)/sizeof(*settingText);
-  gb.display.setFontSize(1);
-  uint8_t w = gb.display.getFontWidth();
-  uint8_t h = gb.display.getFontHeight();
-  gb.display.setColor(WHITE);
-  gb.display.setCursor(.5*(160-(w*length)), .5*(128-h));
-  gb.display.print(playText);
-  gb.display.setCursor(.5*(160-(w*lengthSettingText)), (.5*(128-h)) + h + 2);
-  gb.display.print(settingText);
-  // Commands management
-  if(gb.buttons.pressed(BUTTON_A)) {
-    this->appState.triggerRunGame();
-  } else if(gb.buttons.pressed(BUTTON_B)) {
-    this->settingController.resetLocalState();
-    this->appState.triggerGoToSetting();
+  menu.manageCommands();
+  menu.rendering();
+  
+  if(menu.isItemSelected()) {
+    if(menu.isPlayTwoPlayerItem()) {
+      this->appState.triggerRunGame();
+    } else if(menu.isSettingsItem()) {
+      this->settingController.resetLocalState();
+      this->appState.triggerGoToSetting();
+    }
   }
 }
 
@@ -73,6 +71,7 @@ void PowerMetaApp::endGame() {
   this->timeController.runTime();
   if(this->timeController.getTempTimeInSeconds() >= 10) {
     this->timeController.stopTime();
+    this->menu.reset();
     this->appState.triggerGoToHome();
   }
 }
