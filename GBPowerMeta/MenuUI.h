@@ -12,6 +12,7 @@ class MenuUI {
 
     uint8_t currentPageIndex;
     uint8_t nbItems;
+    int16_t iconFrameIndex;
     bool isItemSelectedFlag;
   protected:
     static const bool IS_REVERSE_IMAGE;
@@ -25,6 +26,7 @@ class MenuUI {
     const int16_t computePositionForNavigationItem(const uint8_t itPage, const bool isReverseImageFlag) const;
     void renderingText() const;
     void renderingItem() const;
+    void renderingIcon() const;
     void renderingNavigation() const;
     void renderingUnitNavigation(const uint8_t aFrameIndex, const bool isReverseImageFlag, const int16_t xPosition) const;
   public:
@@ -41,15 +43,18 @@ class MenuUI {
     static const int8_t THIRD_PAGE_INDEX;
     static const int8_t FOURTH_PAGE_INDEX;
 
+    static const int16_t HOME_ICON_INDEX;
+    static const int16_t PAUSE_ICON_INDEX;
+
     /**
      * Desactive all items by default.
      */
     MenuUI();
 
     /**
-     * Initialize nbItems.
+     * Initialize nbItems and iconFrameIndex.
      */  
-    void initialize(uint8_t aNbItems);
+    void initialize(uint8_t aNbItems, int16_t anIconFrameIndex);
 
     /**
      * Active an item : set a valid and unique page index.

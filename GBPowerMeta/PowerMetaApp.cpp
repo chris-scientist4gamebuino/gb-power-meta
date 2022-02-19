@@ -11,7 +11,7 @@ PowerMetaApp::PowerMetaApp() {}
 
 void PowerMetaApp::initialize() {
   // initialize menu
-  this->menu.initialize(2);
+  this->menu.initialize(2, MenuUI::HOME_ICON_INDEX);
   this->menu.setActive(MenuUI::PLAY_2P_ITEM_INDEX, MenuUI::FIRST_PAGE_INDEX);
   this->menu.setActive(MenuUI::SETTINGS_ITEM_INDEX, MenuUI::SECOND_PAGE_INDEX);
   //

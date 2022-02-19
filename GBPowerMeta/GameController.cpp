@@ -14,7 +14,7 @@ GameController::GameController()
   this->commands.setGameController(this);
   //
   // Initialisation du menu pause  
-  this->menuPause.initialize(3);
+  this->menuPause.initialize(3, MenuUI::PAUSE_ICON_INDEX);
   this->menuPause.setActive(MenuUI::PLAY_ITEM_INDEX, MenuUI::FIRST_PAGE_INDEX);
   this->menuPause.setActive(MenuUI::SETTINGS_ITEM_INDEX, MenuUI::SECOND_PAGE_INDEX);
   this->menuPause.setActive(MenuUI::STOP_ITEM_INDEX, MenuUI::THIRD_PAGE_INDEX);

@@ -24,7 +24,7 @@ void loop() {
   // RAM
   uint16_t ram = gb.getFreeRam();
   gb.display.setFontSize(1);
-  gb.display.setCursor(0,0);
+  gb.display.setCursor(0,50);
   gb.display.setColor(MY_GREY);
   gb.display.print(ram);
 }
