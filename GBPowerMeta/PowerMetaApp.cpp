@@ -31,16 +31,11 @@ void PowerMetaApp::run() {
 
 void PowerMetaApp::home() {
   // Home Screen
-  menu.manageCommands();
-  menu.rendering();
+  this->menu.manageCommands();
+  this->menu.rendering();
   
-  if(menu.isItemSelected()) {
-    if(menu.isPlayTwoPlayerItem()) {
-      this->appState.triggerRunGame();
-    } else if(menu.isSettingsItem()) {
-      this->goToSetting();
-    }
-  }
+  if(this->menu.isPlayTwoPlayerItem()) {    this->appState.triggerRunGame(); }
+  else if(this->menu.isSettingsItem()) {    this->goToSetting(); }
 }
 
 void PowerMetaApp::initializeGame() {

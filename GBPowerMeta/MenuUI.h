@@ -14,6 +14,8 @@ class MenuUI {
     uint8_t nbItems;
     int16_t iconFrameIndex;
     bool isItemSelectedFlag;
+
+    const bool isItemSelected() const;
   protected:
     static const bool IS_REVERSE_IMAGE;
 
@@ -29,6 +31,12 @@ class MenuUI {
     void renderingIcon() const;
     void renderingNavigation() const;
     void renderingUnitNavigation(const uint8_t aFrameIndex, const bool isReverseImageFlag, const int16_t xPosition) const;
+
+    const bool isCurrentChoicePlayItem() const;
+    const bool isCurrentChoicePlayTwoPlayerItem() const;
+    const bool isCurrentChoicePlayOnePlayerItem() const;
+    const bool isCurrentChoiceSettingsItem() const;
+    const bool isCurrentChoiceStopItem() const;
   public:
     static const uint8_t NO_ITEM_INDEX;
     static const uint8_t PLAY_ITEM_INDEX;
@@ -73,7 +81,6 @@ class MenuUI {
 
     void reset();
     void resetCurrentPageIndex();
-    const bool isItemSelected() const;
 
     // ==========================================================
     // The following methods are used to determine current item :

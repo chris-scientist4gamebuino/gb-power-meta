@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 17/02/2022
+// updated at: 19/02/2022
 
 #ifndef POWER_META_CONSTANTS
 #define POWER_META_CONSTANTS
@@ -44,5 +44,6 @@ const Color PALETTE[] = {
 #define MY_BLUE     PALETTE[0x3]
 #define MY_RED      PALETTE[0x4]
 #define MY_YELLOW   PALETTE[0x5]
+#define MY_GREEN    PALETTE[0x6]
 
 #endif

@@ -543,10 +543,10 @@ void MenuUI::renderingItem() const {
   };
 
   int16_t item = 0;
-  if(this->isPlayTwoPlayerItem()) {       item = 1; } 
-  else if(this->isPlayOnePlayerItem()) {  item = 2; }
-  else if(this->isSettingsItem()) {       item = 3; }
-  else if(this->isStopItem()) {           item = 4; }
+  if(this->isCurrentChoicePlayTwoPlayerItem()) {       item = 1; } 
+  else if(this->isCurrentChoicePlayOnePlayerItem()) {  item = 2; }
+  else if(this->isCurrentChoiceSettingsItem()) {       item = 3; }
+  else if(this->isCurrentChoiceStopItem()) {           item = 4; }
 
   Image menuImg(MENU_IMAGES);
   menuImg.setFrame(item);
@@ -750,8 +750,14 @@ void MenuUI::renderingUnitNavigation(const uint8_t aFrameIndex, const bool isRev
 
 const bool MenuUI::isItemSelected() const {   return (this->isItemSelectedFlag == MenuUI::ITEM_SELECTED); }
 
-const bool MenuUI::isPlayItem() const {             return ( this->getCurrentItemIndex() == MenuUI::PLAY_ITEM_INDEX ); }
-const bool MenuUI::isPlayTwoPlayerItem() const {    return ( this->getCurrentItemIndex() == MenuUI::PLAY_2P_ITEM_INDEX ); }
-const bool MenuUI::isPlayOnePlayerItem() const {    return ( this->getCurrentItemIndex() == MenuUI::PLAY_1P_ITEM_INDEX ); }
-const bool MenuUI::isSettingsItem() const {         return ( this->getCurrentItemIndex() == MenuUI::SETTINGS_ITEM_INDEX ); }
-const bool MenuUI::isStopItem() const {             return ( this->getCurrentItemIndex() == MenuUI::STOP_ITEM_INDEX ); }
+const bool MenuUI::isCurrentChoicePlayItem() const {            return ( this->getCurrentItemIndex() == MenuUI::PLAY_ITEM_INDEX ); }
+const bool MenuUI::isCurrentChoicePlayTwoPlayerItem() const {   return ( this->getCurrentItemIndex() == MenuUI::PLAY_2P_ITEM_INDEX ); }
+const bool MenuUI::isCurrentChoicePlayOnePlayerItem() const {   return ( this->getCurrentItemIndex() == MenuUI::PLAY_1P_ITEM_INDEX ); }
+const bool MenuUI::isCurrentChoiceSettingsItem() const {        return ( this->getCurrentItemIndex() == MenuUI::SETTINGS_ITEM_INDEX ); }
+const bool MenuUI::isCurrentChoiceStopItem() const {            return ( this->getCurrentItemIndex() == MenuUI::STOP_ITEM_INDEX ); }
+
+const bool MenuUI::isPlayItem() const {             return ( this->isItemSelected() && this->isCurrentChoicePlayItem() ); }
+const bool MenuUI::isPlayTwoPlayerItem() const {    return ( this->isItemSelected() && this->isCurrentChoicePlayTwoPlayerItem() ); }
+const bool MenuUI::isPlayOnePlayerItem() const {    return ( this->isItemSelected() && this->isCurrentChoicePlayOnePlayerItem() ); }
+const bool MenuUI::isSettingsItem() const {         return ( this->isItemSelected() && this->isCurrentChoiceSettingsItem() ); }
+const bool MenuUI::isStopItem() const {             return ( this->isItemSelected() && this->isCurrentChoiceStopItem() ); }

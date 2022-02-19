@@ -2,6 +2,7 @@
 // created at: 14/01/2022
 // updated at: 19/02/2022
 
+#include <Arduino.h>
 #include <Gamebuino-Meta.h>
 
 #include "GameController.h"
@@ -18,6 +19,10 @@ GameController::GameController()
   this->menuPause.setActive(MenuUI::PLAY_ITEM_INDEX, MenuUI::FIRST_PAGE_INDEX);
   this->menuPause.setActive(MenuUI::SETTINGS_ITEM_INDEX, MenuUI::SECOND_PAGE_INDEX);
   this->menuPause.setActive(MenuUI::STOP_ITEM_INDEX, MenuUI::THIRD_PAGE_INDEX);
+  //
+  // Intialisation de la boite de dialogue
+  this->quitGameDialog.initialize(ADialogBox::NO_ITEM_CHOICE);
+  this->quitGameDialog.setYPositionActionButton( .5 * SCREEN_HEIGHT );
 }
 
 void GameController::initialize() {
@@ -29,6 +34,7 @@ void GameController::initialize() {
   this->statusOfGame.triggerNotFinish();
   this->boardModel.reset();
   this->menuPause.resetCurrentPageIndex();
+  this->quitGameDialog.reset();
 }
 
 void GameController::run() {
@@ -38,18 +44,20 @@ void GameController::run() {
   //
   // Gestion en fonction de l'état courant
   bool isPause = this->state.isPause();
+  bool isShowStopGameDialogBox = this->state.isDoYouWantStopGame();
   if(this->state.isPlayToken()) {                   this->play(); } 
   else if(this->state.isFallTokenInProgress()) {    this->commands.fallToken(); }
   else if(this->state.isGetPlayerInput()) {         this->commands.management(); }
   else if(this->state.isCheckGameStatus()) {        this->checkGameStatus(); }
   else if(isPause) {                                this->pause(); }
+  else if(isShowStopGameDialogBox) {                this->stopGameDialogBox(); }
   //
   // Gestion de l'affichage (jeu ou menu pause)
-  if( ! isPause ) {
+  if( ! isPause && ! isShowStopGameDialogBox ) {
     GameView::rendering((GameController *)this, this->commands.getTokenDuringTheGame(), this->state, this->statusOfGame);
-  } else {    
-    this->menuPause.rendering();
   }
+  else if( isPause && ! isShowStopGameDialogBox ) {     this->menuPause.rendering(); }
+  else if( isShowStopGameDialogBox ) {                  this->quitGameDialog.rendering(); }
 }
 
 void GameController::play() {
@@ -86,10 +94,24 @@ void GameController::pause() {
   this->menuPause.manageCommands();
   //
   // Check selected item
-  if(this->menuPause.isItemSelected()) {
-    if(this->menuPause.isPlayItem()) {            this->state.triggerGetPlayerInput(); }
-    else if(this->menuPause.isSettingsItem()) {   this->state.triggerGoToSettings(); }
-    else if(this->menuPause.isStopItem()) {       this->state.triggerStopTheGame(); }
+  if(this->menuPause.isPlayItem()) {            this->state.triggerGetPlayerInput(); }
+  else if(this->menuPause.isSettingsItem()) {   this->state.triggerGoToSettings(); }
+  else if(this->menuPause.isStopItem()) {       this->state.triggerDoYouWantStopGame(); }
+
+  this->menuPause.reset();
+}
+
+void GameController::stopGameDialogBox() {
+  this->quitGameDialog.manageCommands();
+
+  const bool isYes = this->quitGameDialog.isYes();
+  const bool isNo = this->quitGameDialog.isNo();
+
+  if(isYes) {        this->state.triggerStopTheGame(); }
+  else if(isNo) {    this->state.triggerPause(); }
+
+  if( isYes || isNo ) {
+    this->quitGameDialog.reset();
     this->menuPause.reset();
   }
 }

@@ -11,6 +11,7 @@
 #include "GameCommands.h"
 #include "GameView.h"
 #include "MenuUI.h"
+#include "QuitGameDialogBox.h"
 #include "Player.h"
 #include "SettingController.h"
 
@@ -23,10 +24,12 @@ class GameController {
     Player playerTwo;
     GameCommands commands;
     MenuUI menuPause;
+    QuitGameDialogBox quitGameDialog;
 
     void play();
     void checkGameStatus();
     void pause();
+    void stopGameDialogBox();
   public:
     GameController();
     void initialize();
