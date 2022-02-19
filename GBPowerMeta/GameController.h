@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 11/02/2022
+// updated at: 19/02/2022
 
 #pragma once
 
@@ -10,8 +10,8 @@
 #include "GameStatus.h"
 #include "GameCommands.h"
 #include "GameView.h"
+#include "MenuUI.h"
 #include "Player.h"
-#include "GameBoardAnimation.h"
 #include "SettingController.h"
 
 class GameController {
@@ -21,11 +21,12 @@ class GameController {
     GameStatus statusOfGame;
     Player playerOne;
     Player playerTwo;
-    GameBoardAnimation boardAnimation;
     GameCommands commands;
+    MenuUI menuPause;
 
     void play();
     void checkGameStatus();
+    void pause();
   public:
     GameController();
     void initialize();

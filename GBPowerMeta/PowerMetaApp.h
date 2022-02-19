@@ -22,6 +22,7 @@ class PowerMetaApp {
     void initializeGame();
     void game();
     void endGame();
+    void goToSetting();
     void setting();
   public:
     PowerMetaApp();

@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 11/02/2022
+// updated at: 19/02/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -11,8 +11,13 @@
 GameController::GameController()
 {
   this->boardModel.reset();
-  this->boardAnimation.setGameBoardModel(&(this->boardModel));
   this->commands.setGameController(this);
+  //
+  // Initialisation du menu pause  
+  this->menuPause.initialize(3);
+  this->menuPause.setActive(MenuUI::PLAY_ITEM_INDEX, MenuUI::FIRST_PAGE_INDEX);
+  this->menuPause.setActive(MenuUI::SETTINGS_ITEM_INDEX, MenuUI::SECOND_PAGE_INDEX);
+  this->menuPause.setActive(MenuUI::STOP_ITEM_INDEX, MenuUI::THIRD_PAGE_INDEX);
 }
 
 void GameController::initialize() {
@@ -23,19 +28,28 @@ void GameController::initialize() {
   this->state.triggerGetPlayerInput();
   this->statusOfGame.triggerNotFinish();
   this->boardModel.reset();
+  this->menuPause.resetCurrentPageIndex();
 }
 
 void GameController::run() {
-  /*if(gb.frameCount % 24 == 0) {
-    this->boardAnimation.run();
-  }*/
-  
+  //
+  // En cas de retour de l'écran de paramétrage alors on renvoie à l'écran de pause
+  if(this->state.isGoToSettings()) {                this->state.triggerPause(); }
+  //
+  // Gestion en fonction de l'état courant
+  bool isPause = this->state.isPause();
   if(this->state.isPlayToken()) {                   this->play(); } 
   else if(this->state.isFallTokenInProgress()) {    this->commands.fallToken(); }
   else if(this->state.isGetPlayerInput()) {         this->commands.management(); }
   else if(this->state.isCheckGameStatus()) {        this->checkGameStatus(); }
-
-  GameView::rendering((GameController *)this, this->commands.getTokenDuringTheGame(), this->state, this->statusOfGame);
+  else if(isPause) {                                this->pause(); }
+  //
+  // Gestion de l'affichage (jeu ou menu pause)
+  if( ! isPause ) {
+    GameView::rendering((GameController *)this, this->commands.getTokenDuringTheGame(), this->state, this->statusOfGame);
+  } else {    
+    this->menuPause.rendering();
+  }
 }
 
 void GameController::play() {
@@ -65,6 +79,18 @@ void GameController::checkGameStatus() {
     //
     // Reset token position for new current player
     this->commands.resetTokenLocation();
+  }
+}
+
+void GameController::pause() {
+  this->menuPause.manageCommands();
+  //
+  // Check selected item
+  if(this->menuPause.isItemSelected()) {
+    if(this->menuPause.isPlayItem()) {            this->state.triggerGetPlayerInput(); }
+    else if(this->menuPause.isSettingsItem()) {   this->state.triggerGoToSettings(); }
+    else if(this->menuPause.isStopItem()) {       this->state.triggerStopTheGame(); }
+    this->menuPause.reset();
   }
 }
 

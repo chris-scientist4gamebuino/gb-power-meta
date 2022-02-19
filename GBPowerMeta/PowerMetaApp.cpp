@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 18/02/2022
+// updated at: 19/02/2022
 
 #include <Arduino.h>
 #include <Gamebuino-Meta.h>
@@ -38,8 +38,7 @@ void PowerMetaApp::home() {
     if(menu.isPlayTwoPlayerItem()) {
       this->appState.triggerRunGame();
     } else if(menu.isSettingsItem()) {
-      this->settingController.resetLocalState();
-      this->appState.triggerGoToSetting();
+      this->goToSetting();
     }
   }
 }
@@ -54,6 +53,11 @@ void PowerMetaApp::game() {
   if(this->gameController.getState()->isTheEnd()) {
     this->timeController.reset();
     this->appState.triggerEndGame();
+  } else if(this->gameController.getState()->isStopTheGame()) {
+    this->menu.reset();
+    this->appState.triggerGoToHome();
+  } else if(this->gameController.getState()->isGoToSettings()) {
+    this->goToSetting();
   }
 }
 
@@ -74,6 +78,11 @@ void PowerMetaApp::endGame() {
     this->menu.reset();
     this->appState.triggerGoToHome();
   }
+}
+
+void PowerMetaApp::goToSetting() {
+  this->settingController.resetLocalState();
+  this->appState.triggerGoToSetting();
 }
 
 void PowerMetaApp::setting() {

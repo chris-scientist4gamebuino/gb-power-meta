@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 16/01/2022
-// updated at: 11/02/2022
+// updated at: 19/02/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -37,6 +37,9 @@ void GameCommands::management() {
   if(gb.buttons.pressed(BUTTON_A)) {
     this->way = GameCommands::NO_TOKEN_MOVE;
     this->gameController->getState()->triggerFallTokenInProgress();
+  } else if(gb.buttons.pressed(BUTTON_MENU)) {
+    this->way = GameCommands::NO_TOKEN_MOVE;
+    this->gameController->getState()->triggerPause();
   } else if(gb.buttons.pressed(BUTTON_LEFT)) {
     if(this->settingController->isReverseCommand()) {
       this->way = GameCommands::MOVE_TOKEN_TO_THE_RIGHT;
