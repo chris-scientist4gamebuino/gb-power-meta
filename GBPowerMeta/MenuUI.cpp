@@ -619,14 +619,28 @@ void MenuUI::renderingIcon() const {
 
   int16_t iconSize = 16; // height and width
   int16_t offset = 5;
-  int16_t radius = ( ( iconSize * 1.8 ) + offset );
+  int16_t padding = 2;
+  int16_t xPositionBackground = offset;
+  int16_t yPositionBackground = 0;
+  int16_t widthBackground = ( iconSize + ( 2 * padding ) );
+  int16_t heightBackground = ( iconSize + ( 2 * offset ) );
 
+  // Draw background of icon
   gb.display.setColor(MY_GREY);
-  gb.display.fillCircle(0, 0, radius);
+  gb.display.fillRect(
+    xPositionBackground,
+    yPositionBackground,
+    widthBackground,
+    heightBackground
+  );
 
+  int16_t xPosition = offset + padding;
+  int16_t yPosition = offset;
+
+  // Draw icon
   gb.display.drawImage(
-    offset,     // x-pos
-    offset,     // y-pos
+    xPosition,  // x-pos
+    yPosition,  // y-pos
     iconImg,    // image
     iconSize,   // width
     iconSize    // height
