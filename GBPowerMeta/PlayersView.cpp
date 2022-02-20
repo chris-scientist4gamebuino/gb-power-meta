@@ -21,7 +21,6 @@ void PlayersView::rendering(
   const GameRound aRound
 ) {
   uint8_t radius = 5;
-  uint8_t yOffset = (128 - (8 + radius));
   bool isVictory = aStatusOfGame.isVictory();
   bool isTie = aStatusOfGame.isTie();
   //
@@ -49,14 +48,6 @@ void PlayersView::rendering(
   gb.display.printf(roundIndexText, aRound.getRoundIndex());
   //
   // Player one rendering
-  // Token (P1)
-  gb.display.setColor(GameTokenView::getColor(aPlayerOne.getToken()));
-  gb.display.fillCircle(13, yOffset, radius);
-  //
-  // Player two rendering
-  // Token (P2)
-  gb.display.setColor(GameTokenView::getColor(aPlayerTwo.getToken()));
-  gb.display.fillCircle(147, yOffset, radius);
   // For legend
   gb.display.setColor(MY_GREY);
   //
@@ -64,7 +55,7 @@ void PlayersView::rendering(
   gb.display.setFontSize(2);
   uint8_t w = gb.display.getFontWidth();
   uint8_t h = gb.display.getFontHeight();
-  uint8_t yOffsetPlayerText = 102-(h*1.5);
+  uint8_t yOffsetPlayerText = ( SCREEN_HEIGHT - 26 - ( h * 2.5 ) );
   // Legend (P1)
   char playerOneText[] = "P1";
   size_t lengthP1 = sizeof(playerOneText)/sizeof(*playerOneText);
@@ -73,8 +64,30 @@ void PlayersView::rendering(
   // Legend (P2)
   char playerTwoText[] = "P2";
   size_t lengthP2 = sizeof(playerTwoText)/sizeof(*playerTwoText);
-  gb.display.setCursor(180-(w*lengthP2)-26, yOffsetPlayerText);
+  gb.display.setCursor(SCREEN_WIDTH+(.5*w*lengthP2)-26, yOffsetPlayerText);
   gb.display.print(playerTwoText);
+  //
+  // Draw victory number for each player
+  const int16_t sizeBoxVictory = 26;
+  const int16_t yBoxVictory = ( SCREEN_HEIGHT - sizeBoxVictory );
+  // Box P1
+  gb.display.setColor(GameTokenView::getColor(aPlayerOne.getToken()));
+  gb.display.fillRect(0, yBoxVictory, sizeBoxVictory, sizeBoxVictory);
+  // Box P2
+  gb.display.setColor(GameTokenView::getColor(aPlayerTwo.getToken()));
+  gb.display.fillRect(SCREEN_WIDTH - sizeBoxVictory, yBoxVictory, sizeBoxVictory, sizeBoxVictory);
+  // Number of victory
+  char victoryNumberText[] = "%d";
+  char victoryNumberFakeText[] = "9";
+  size_t lengthVictoryNumberText = sizeof(victoryNumberFakeText) / sizeof(*victoryNumberFakeText);
+  const int16_t yVictoryNumber = ( SCREEN_HEIGHT - ( .5 * ( 26 + h ) ) );
+  gb.display.setColor(MY_BLACK);
+  // Nb victory of P1
+  gb.display.setCursor(.5 * ( sizeBoxVictory - ( w * lengthVictoryNumberText ) ), yVictoryNumber);
+  gb.display.printf(victoryNumberText, aRound.getNbPlayerOneVictory());
+  // Nb victory of P2
+  gb.display.setCursor(SCREEN_WIDTH + ( w * lengthVictoryNumberText ) - sizeBoxVictory, yVictoryNumber);
+  gb.display.printf(victoryNumberText, aRound.getNbPlayerTwoVictory());
   //
   // Token of current player
   if( aStatusOfGame.isNotFinish() ) {
