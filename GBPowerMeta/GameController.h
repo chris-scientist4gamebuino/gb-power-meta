@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 19/02/2022
+// updated at: 20/02/2022
 
 #pragma once
 
@@ -24,6 +24,7 @@ class GameController {
     GameRound round;
     Player playerOne;
     Player playerTwo;
+    Player * lastPlayerToStart;
     GameCommands commands;
     MenuUI menuPause;
     QuitGameDialogBox quitGameDialog;
@@ -32,6 +33,7 @@ class GameController {
     void checkGameStatus();
     void pause();
     void stopGameDialogBox();
+    Player * getPlayerToStart();
   public:
     GameController();
     void initialize();

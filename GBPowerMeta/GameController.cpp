@@ -9,11 +9,13 @@
 
 #include "CheckGameStatus.h"
 #include "GameRoundView.h"
+#include "TokenDuringTheGame.h"
 
 GameController::GameController()
 {
   this->boardModel.reset();
   this->commands.setGameController(this);
+  this->lastPlayerToStart = NULL;
   //
   // Initialisation du menu pause  
   this->menuPause.initialize(3, MenuUI::PAUSE_ICON_INDEX);
@@ -64,10 +66,15 @@ void GameController::run() {
 void GameController::newRound() {
   this->boardModel.reset();
   this->state.triggerGetPlayerInput();
-  this->statusOfGame.triggerNotFinish();
   this->menuPause.resetCurrentPageIndex();
   this->quitGameDialog.reset();
-  this->commands.initialize();
+  const bool initialPlayer = (
+    this->getPlayerToStart()->compare(this->playerTwo) ? 
+    TokenDuringTheGame::OWNER_PLAYER_TWO : 
+    ( ! TokenDuringTheGame::OWNER_PLAYER_TWO )
+  );
+  this->commands.initialize(initialPlayer);
+  this->statusOfGame.triggerNotFinish();
 }
 
 void GameController::play() {
@@ -138,6 +145,28 @@ void GameController::stopGameDialogBox() {
 }
 
 void GameController::setSettingController(SettingController * aSettingController) { this->commands.setSettingController(aSettingController); } 
+
+Player * GameController::getPlayerToStart() {
+  //
+  // Déterminer le joueur qui commence :
+  // - [Rule-P1] Round 1 : joueur 1
+  // - Autre round : [Rule-LP] perdant de la manche précédente, 
+  //                 [Rule-Tie] ou en cas d'égalité : le joueur qui a jouer en second à la manche précédente
+  //
+  Player * initialPlayer = &(this->playerOne); // [Rule-P1]
+  if(this->round.getRoundIndex() > 1) {
+    if(this->statusOfGame.isVictory()) {
+      // [Rule-LP]
+      initialPlayer = &( this->statusOfGame.getPlayerWhoWin()->compare(this->playerTwo) ? this->playerOne : this->playerTwo );
+    } else {
+      // [Rule-Tie]
+      initialPlayer = &( this->lastPlayerToStart->compare(this->playerTwo) ? this->playerOne : this->playerTwo );
+    }
+  }
+  this->lastPlayerToStart = initialPlayer;
+
+  return this->lastPlayerToStart;
+}
 
 GameBoard * GameController::getBoardModel() {
   return &(this->boardModel);

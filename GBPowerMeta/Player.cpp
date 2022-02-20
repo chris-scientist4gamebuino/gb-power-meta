@@ -16,4 +16,4 @@ const GameToken Player::getToken() const {
   return GameToken(this->token);
 }
 
-const bool Player::compare(Player otherPlayer) const { return this->getToken().equalTo(otherPlayer.getToken()); }
+const bool Player::compare(const Player otherPlayer) const { return this->getToken().equalTo(otherPlayer.getToken()); }

@@ -15,5 +15,5 @@ class Player {
     Player();
     void setToken(uint8_t aToken);
     const GameToken getToken() const;
-    const bool compare(Player otherPlayer) const;
+    const bool compare(const Player otherPlayer) const;
 };

@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 16/01/2022
-// updated at: 19/02/2022
+// updated at: 20/02/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -18,10 +18,10 @@ GameCommands::GameCommands()
   this->setGameController(NULL);
 }
 
-void GameCommands::initialize() {
+void GameCommands::initialize(const bool anInitialPlayer) {
   this->way = GameCommands::NO_TOKEN_MOVE;
   this->nbTimes = 0;
-  this->token.setOwnerEqualPlayerTwo( ! TokenDuringTheGame::OWNER_PLAYER_TWO );
+  this->token.setOwnerEqualPlayerTwo(anInitialPlayer);
   this->token.moveTokenAtMiddleLocation();
   this->token.moveTokenAtTheTop();
   this->fallOneTokenAnimation.setToken(&(this->token));

@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 16/01/2022
-// updated at: 11/02/2022
+// updated at: 20/02/2022
 
 #pragma once
 
@@ -26,7 +26,7 @@ class GameCommands {
     static const uint8_t MOVE_TOKEN_TO_THE_RIGHT;
   public:
     GameCommands();
-    void initialize();
+    void initialize(const bool anInitialPlayer);
     void management();
     void managementDuringRoundSummary();
     void setGameController(GameController * aGameController);
