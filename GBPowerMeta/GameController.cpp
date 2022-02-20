@@ -19,7 +19,7 @@ GameController::GameController()
   this->menuPause.initialize(3, MenuUI::PAUSE_ICON_INDEX);
   this->menuPause.setActive(MenuUI::PLAY_ITEM_INDEX, MenuUI::FIRST_PAGE_INDEX);
   this->menuPause.setActive(MenuUI::SETTINGS_ITEM_INDEX, MenuUI::SECOND_PAGE_INDEX);
-  this->menuPause.setActive(MenuUI::STOP_ITEM_INDEX, MenuUI::THIRD_PAGE_INDEX);
+  this->menuPause.setActive(MenuUI::HOME_ITEM_INDEX, MenuUI::THIRD_PAGE_INDEX);
   //
   // Intialisation de la boite de dialogue
   this->quitGameDialog.initialize(ADialogBox::NO_ITEM_CHOICE);
@@ -42,7 +42,7 @@ void GameController::run() {
   //
   // Gestion en fonction de l'état courant
   bool isPause = this->state.isPause();
-  bool isShowStopGameDialogBox = this->state.isDoYouWantStopGame();
+  bool isShowStopGameDialogBox = this->state.isGoToHome();
   bool isNextRound = this->state.isNextRound();
   if(this->state.isPlayToken()) {                   this->play(); } 
   else if(this->state.isFallTokenInProgress()) {    this->commands.fallToken(); }
@@ -117,7 +117,7 @@ void GameController::pause() {
   // Check selected item
   if(this->menuPause.isPlayItem()) {            this->state.triggerGetPlayerInput(); }
   else if(this->menuPause.isSettingsItem()) {   this->state.triggerGoToSettings(); }
-  else if(this->menuPause.isStopItem()) {       this->state.triggerDoYouWantStopGame(); }
+  else if(this->menuPause.isHomeItem()) {       this->state.triggerGoToHome(); }
 
   this->menuPause.reset();
 }

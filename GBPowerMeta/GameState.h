@@ -14,7 +14,7 @@ class GameState {
     bool isPlayTokenFlag;
     bool isCheckGameStatusFlag;
     bool isTheEndFlag;
-    bool isDoYouWantStopGameFlag;
+    bool isGoToHomeFlag;
     bool isStopTheGameFlag;
     bool isPauseFlag;
     bool isGoToSettingsFlag;
@@ -29,7 +29,7 @@ class GameState {
     void triggerPlayToken();
     void triggerCheckGameStatus();
     void triggerTheEnd();
-    void triggerDoYouWantStopGame();
+    void triggerGoToHome();
     void triggerStopTheGame();
     void triggerPause();
     void triggerGoToSettings();
@@ -40,7 +40,7 @@ class GameState {
     const bool isPlayToken() const;
     const bool isCheckGameStatus() const;
     const bool isTheEnd() const;
-    const bool isDoYouWantStopGame() const;
+    const bool isGoToHome() const;
     const bool isStopTheGame() const;
     const bool isPause() const;
     const bool isGoToSettings() const;

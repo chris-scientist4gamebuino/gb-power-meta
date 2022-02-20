@@ -38,9 +38,9 @@ void GameState::triggerTheEnd() {
   this->isTheEndFlag = true;
 }
 
-void GameState::triggerDoYouWantStopGame() {
+void GameState::triggerGoToHome() {
   this->reset();
-  this->isDoYouWantStopGameFlag = true;
+  this->isGoToHomeFlag = true;
 }
 
 void GameState::triggerStopTheGame() {
@@ -65,7 +65,7 @@ void GameState::reset() {
   this->isPlayTokenFlag = false;
   this->isCheckGameStatusFlag = false;
   this->isTheEndFlag = false;
-  this->isDoYouWantStopGameFlag = false;
+  this->isGoToHomeFlag = false;
   this->isStopTheGameFlag = false;
   this->isPauseFlag = false;
   this->isGoToSettingsFlag = false;
@@ -77,7 +77,7 @@ const bool GameState::isFallTokenInProgress() const { return this->isFallTokenIn
 const bool GameState::isPlayToken() const {           return this->isPlayTokenFlag; }
 const bool GameState::isCheckGameStatus() const {     return this->isCheckGameStatusFlag; }
 const bool GameState::isTheEnd() const {              return this->isTheEndFlag; }
-const bool GameState::isDoYouWantStopGame() const {   return this->isDoYouWantStopGameFlag; }
+const bool GameState::isGoToHome() const {            return this->isGoToHomeFlag; }
 const bool GameState::isStopTheGame() const {         return this->isStopTheGameFlag; }
 const bool GameState::isPause() const {               return this->isPauseFlag; }
 const bool GameState::isGoToSettings() const {        return this->isGoToSettingsFlag; }
