@@ -172,6 +172,10 @@ GameBoard * GameController::getBoardModel() {
   return &(this->boardModel);
 }
 
+const GameRound GameController::getRound() const {
+  return this->round;
+}
+
 Player GameController::getPlayerOne() const {
   return this->playerOne;
 }

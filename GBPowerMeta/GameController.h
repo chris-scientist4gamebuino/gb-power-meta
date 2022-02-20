@@ -41,6 +41,7 @@ class GameController {
     void newRound();
     void setSettingController(SettingController * aSettingController);
     GameBoard * getBoardModel();
+    const GameRound getRound() const;
     Player getPlayerOne() const;
     Player getPlayerTwo() const;
     Player * getCurrentPlayer();
