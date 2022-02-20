@@ -6,6 +6,7 @@
 
 #include "GameController.h"
 #include "SettingController.h"
+#include "EndGameController.h"
 #include "TimeController.h"
 #include "MenuUI.h"
 #include "AppState.h"
@@ -14,6 +15,7 @@ class PowerMetaApp {
   private:
     GameController gameController;
     SettingController settingController;
+    EndGameController endGameController;
     TimeController timeController;
     MenuUI menu;
     AppState appState;

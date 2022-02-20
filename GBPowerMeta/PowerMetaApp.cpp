@@ -19,6 +19,7 @@ void PowerMetaApp::initialize() {
   this->settingController.setAppState( &(this->appState) );
   this->settingController.setMenu( &(this->menu) );
   this->gameController.setSettingController( &(this->settingController) );
+  this->endGameController.setGameController( &(this->gameController) );
 }
 
 void PowerMetaApp::run() {
@@ -46,7 +47,7 @@ void PowerMetaApp::initializeGame() {
 void PowerMetaApp::game() {
   this->gameController.run();
   if(this->gameController.getState()->isTheEnd()) {
-    this->timeController.reset();
+    this->endGameController.initialize();
     this->appState.triggerEndGame();
   } else if(this->gameController.getState()->isStopTheGame()) {
     this->menu.reset();
@@ -57,19 +58,10 @@ void PowerMetaApp::game() {
 }
 
 void PowerMetaApp::endGame() {
-  // Home Screen
-  char waitText[] = "waiting screen...";
-  size_t length = sizeof(waitText)/sizeof(*waitText);
-  gb.display.setFontSize(1);
-  uint8_t w = gb.display.getFontWidth();
-  uint8_t h = gb.display.getFontHeight();
-  gb.display.setCursor(.5*(160-(w*length)), .5*(128-h));
-  gb.display.setColor(WHITE);
-  gb.display.print(waitText);
+  // End Game Screen
+  this->endGameController.run();
   // Waiting loop
-  this->timeController.runTime();
-  if(this->timeController.getTempTimeInSeconds() >= 10) {
-    this->timeController.stopTime();
+  if(this->endGameController.getState().isGoToHome()) {
     this->menu.reset();
     this->appState.triggerGoToHome();
   }
