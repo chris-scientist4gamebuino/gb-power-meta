@@ -28,6 +28,7 @@ class GameCommands {
     GameCommands();
     void initialize();
     void management();
+    void managementDuringRoundSummary();
     void setGameController(GameController * aGameController);
     void setSettingController(SettingController * aSettingController);
     void fallToken();

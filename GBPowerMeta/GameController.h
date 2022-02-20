@@ -8,6 +8,7 @@
 #include "GameBoard.h"
 #include "GameState.h"
 #include "GameStatus.h"
+#include "GameRound.h"
 #include "GameCommands.h"
 #include "GameView.h"
 #include "MenuUI.h"
@@ -20,6 +21,7 @@ class GameController {
     GameBoard boardModel;
     GameState state;
     GameStatus statusOfGame;
+    GameRound round;
     Player playerOne;
     Player playerTwo;
     GameCommands commands;
@@ -34,6 +36,7 @@ class GameController {
     GameController();
     void initialize();
     void run();
+    void newRound();
     void setSettingController(SettingController * aSettingController);
     GameBoard * getBoardModel();
     Player getPlayerOne() const;

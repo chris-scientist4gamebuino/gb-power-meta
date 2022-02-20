@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 23/01/2022
-// updated at: 19/02/2022
+// updated at: 20/02/2022
 
 #pragma once
 
@@ -8,6 +8,7 @@
 
 class GameState {
   private:
+    bool isNextRoundFlag;
     bool isGetPlayerInputFlag;
     bool isFallTokenInProgressFlag;
     bool isPlayTokenFlag;
@@ -22,6 +23,7 @@ class GameState {
   public:
     GameState();
 
+    void triggerNextRound();
     void triggerGetPlayerInput();
     void triggerFallTokenInProgress();
     void triggerPlayToken();
@@ -32,6 +34,7 @@ class GameState {
     void triggerPause();
     void triggerGoToSettings();
 
+    const bool isNextRound() const;
     const bool isGetPlayerInput() const;
     const bool isFallTokenInProgress() const;
     const bool isPlayToken() const;

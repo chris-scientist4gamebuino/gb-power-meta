@@ -67,6 +67,10 @@ void GameCommands::management() {
   }
 }
 
+void GameCommands::managementDuringRoundSummary() {
+  if(gb.buttons.pressed(BUTTON_A)) {    this->gameController->newRound(); }
+}
+
 void GameCommands::setGameController(GameController * aGameController) {
   this->gameController = aGameController;
   this->fallOneTokenAnimation.setBoardModel(this->gameController->getBoardModel());

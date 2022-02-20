@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 19/02/2022
+// updated at: 20/02/2022
 
 #include <Arduino.h>
 #include <Gamebuino-Meta.h>
@@ -8,6 +8,7 @@
 #include "GameController.h"
 
 #include "CheckGameStatus.h"
+#include "GameRoundView.h"
 
 GameController::GameController()
 {
@@ -29,12 +30,9 @@ void GameController::initialize() {
   uint8_t tokenForPlayerOne = (random(0,65635) % 2 == 0 ? YELLOW_TOKEN : RED_TOKEN);
   this->playerOne.setToken(tokenForPlayerOne);
   this->playerTwo.setToken(tokenForPlayerOne == (uint8_t)YELLOW_TOKEN ? RED_TOKEN : YELLOW_TOKEN);
-  this->commands.initialize();
-  this->state.triggerGetPlayerInput();
-  this->statusOfGame.triggerNotFinish();
-  this->boardModel.reset();
-  this->menuPause.resetCurrentPageIndex();
-  this->quitGameDialog.reset();
+  this->round.reset();
+  this->newRound();
+  this->state.triggerNextRound(); // Pour être rediriger sur l'écran de récapitulatif du round
 }
 
 void GameController::run() {
@@ -45,19 +43,31 @@ void GameController::run() {
   // Gestion en fonction de l'état courant
   bool isPause = this->state.isPause();
   bool isShowStopGameDialogBox = this->state.isDoYouWantStopGame();
+  bool isNextRound = this->state.isNextRound();
   if(this->state.isPlayToken()) {                   this->play(); } 
   else if(this->state.isFallTokenInProgress()) {    this->commands.fallToken(); }
   else if(this->state.isGetPlayerInput()) {         this->commands.management(); }
   else if(this->state.isCheckGameStatus()) {        this->checkGameStatus(); }
   else if(isPause) {                                this->pause(); }
   else if(isShowStopGameDialogBox) {                this->stopGameDialogBox(); }
+  else if(isNextRound) {                            this->commands.managementDuringRoundSummary(); }
   //
-  // Gestion de l'affichage (jeu ou menu pause)
-  if( ! isPause && ! isShowStopGameDialogBox ) {
+  // Gestion de l'affichage
+  if(isNextRound) {                                     GameRoundView::rendering(this->round); }
+  else if( ! isPause && ! isShowStopGameDialogBox ) {
     GameView::rendering((GameController *)this, this->commands.getTokenDuringTheGame(), this->state, this->statusOfGame);
   }
   else if( isPause && ! isShowStopGameDialogBox ) {     this->menuPause.rendering(); }
   else if( isShowStopGameDialogBox ) {                  this->quitGameDialog.rendering(); }
+}
+
+void GameController::newRound() {
+  this->boardModel.reset();
+  this->state.triggerGetPlayerInput();
+  this->statusOfGame.triggerNotFinish();
+  this->menuPause.resetCurrentPageIndex();
+  this->quitGameDialog.reset();
+  this->commands.initialize();
 }
 
 void GameController::play() {
@@ -78,7 +88,18 @@ void GameController::checkGameStatus() {
   const TokenDuringTheGame token = this->commands.getTokenDuringTheGame();
   this->statusOfGame.update( CheckGameStatus::run(token, this->boardModel, this->getCurrentPlayer()) );
   if(this->statusOfGame.isVictoryOrTie()) {
-    this->state.triggerTheEnd();
+    //
+    // Count round
+    if(this->statusOfGame.isVictory()) {
+      if( this->statusOfGame.getPlayerWhoWin()->compare(this->playerOne) ) {    this->round.addVictoryForPlayerOne(); }
+      else {                                                                    this->round.addVictoryForPlayerTwo(); }
+    } else {
+      this->round.addTieRound();
+    }
+    //
+    // Change state
+    if( this->round.stillAtLeastOneRoundLeft() ) {  this->state.triggerNextRound(); }
+    else {                                          this->state.triggerTheEnd(); }
   } else {
     this->state.triggerGetPlayerInput();
     //

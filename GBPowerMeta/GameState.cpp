@@ -1,11 +1,16 @@
 // author: chris-scientist
 // created at: 23/01/2022
-// updated at: 19/02/2022
+// updated at: 20/02/2022
 
 #include "GameState.h"
 
 GameState::GameState() {
   this->triggerGetPlayerInput();
+}
+
+void GameState::triggerNextRound() {
+  this->reset();
+  this->isNextRoundFlag = true;
 }
 
 void GameState::triggerGetPlayerInput() {
@@ -54,6 +59,7 @@ void GameState::triggerGoToSettings() {
 }
 
 void GameState::reset() {
+  this->isNextRoundFlag = false;
   this->isGetPlayerInputFlag = false;
   this->isFallTokenInProgressFlag = false;
   this->isPlayTokenFlag = false;
@@ -65,6 +71,7 @@ void GameState::reset() {
   this->isGoToSettingsFlag = false;
 }
 
+const bool GameState::isNextRound() const {           return this->isNextRoundFlag; }
 const bool GameState::isGetPlayerInput() const {      return this->isGetPlayerInputFlag; }
 const bool GameState::isFallTokenInProgress() const { return this->isFallTokenInProgressFlag; }
 const bool GameState::isPlayToken() const {           return this->isPlayTokenFlag; }
