@@ -30,8 +30,6 @@ MenuUI::MenuUI() :
 }
 
 void MenuUI::initialize(uint8_t * anItems, size_t aNbItems, int16_t anIconFrameIndex) {
-  //size_t nbItems = ( aNbItems * sizeof( *(this->items) ) );
-  //this->items = static_cast<uint8_t*>( malloc( nbItems ) );
   this->items = anItems;
   this->nbItems = aNbItems;
   this->iconFrameIndex = anIconFrameIndex;
