@@ -19,28 +19,20 @@ const uint8_t MenuUI::PLAY_1P_ITEM_INDEX    = 3;
 const uint8_t MenuUI::SETTINGS_ITEM_INDEX   = 4;
 const uint8_t MenuUI::HOME_ITEM_INDEX       = 5;
 
-const int8_t MenuUI::DESACTIVE_PAGE_INDEX   = -1;
-const int8_t MenuUI::FIRST_PAGE_INDEX       = 0;
-const int8_t MenuUI::SECOND_PAGE_INDEX      = 1;
-const int8_t MenuUI::THIRD_PAGE_INDEX       = 2;
-const int8_t MenuUI::FOURTH_PAGE_INDEX      = 3;
-
 const int16_t MenuUI::HOME_ICON_INDEX       = 0;
 const int16_t MenuUI::PAUSE_ICON_INDEX      = 1;
 
 MenuUI::MenuUI() : 
   currentPageIndex(0),
-  nbItems(0),
-  iconFrameIndex(MenuUI::HOME_ICON_INDEX),
-  firstItemIndex(MenuUI::NO_ITEM_INDEX),
-  secondItemIndex(MenuUI::NO_ITEM_INDEX),
-  thirdItemIndex(MenuUI::NO_ITEM_INDEX),
-  fourthItemIndex(MenuUI::NO_ITEM_INDEX)
+  iconFrameIndex(MenuUI::HOME_ICON_INDEX)
 {
   this->reset();
 }
 
-void MenuUI::initialize(uint8_t aNbItems, int16_t anIconFrameIndex) {
+void MenuUI::initialize(uint8_t * anItems, size_t aNbItems, int16_t anIconFrameIndex) {
+  //size_t nbItems = ( aNbItems * sizeof( *(this->items) ) );
+  //this->items = static_cast<uint8_t*>( malloc( nbItems ) );
+  this->items = anItems;
   this->nbItems = aNbItems;
   this->iconFrameIndex = anIconFrameIndex;
 }
@@ -50,23 +42,6 @@ void MenuUI::reset() {
 }
 
 void MenuUI::resetCurrentPageIndex() {  this->currentPageIndex = 0; }
-
-void MenuUI::setActive(const uint8_t anItemIndex, const int8_t aPageIndex) {
-  switch(aPageIndex) {
-    case (uint8_t)MenuUI::FIRST_PAGE_INDEX:
-      this->firstItemIndex = anItemIndex;
-      break;
-    case (uint8_t)MenuUI::SECOND_PAGE_INDEX:
-      this->secondItemIndex = anItemIndex;
-      break;
-    case (uint8_t)MenuUI::THIRD_PAGE_INDEX:
-      this->thirdItemIndex = anItemIndex;
-      break;
-    case (uint8_t)MenuUI::FOURTH_PAGE_INDEX:
-      this->fourthItemIndex = anItemIndex;
-      break;
-  }
-}
 
 void MenuUI::manageCommands() {
   if(gb.buttons.pressed(BUTTON_LEFT)) {
@@ -96,20 +71,7 @@ void MenuUI::rendering() const {
 const uint8_t MenuUI::getCurrentItemIndex() const {
   uint8_t currentItemIndex = MenuUI::NO_ITEM_INDEX;
   if(this->nbItems > 0) {
-    switch(this->currentPageIndex) {
-      case (uint8_t)MenuUI::FIRST_PAGE_INDEX:
-        currentItemIndex = this->firstItemIndex;
-        break;
-      case (uint8_t)MenuUI::SECOND_PAGE_INDEX:
-        currentItemIndex = this->secondItemIndex;
-        break;
-      case (uint8_t)MenuUI::THIRD_PAGE_INDEX:
-        currentItemIndex = this->thirdItemIndex;
-        break;
-      case (uint8_t)MenuUI::FOURTH_PAGE_INDEX:
-        currentItemIndex = this->fourthItemIndex;
-        break;
-    }
+    currentItemIndex = this->items[ this->currentPageIndex ];
   }
   return currentItemIndex;
 }
@@ -654,7 +616,7 @@ const int16_t MenuUI::computePositionForNavigationItem(const uint8_t itPage, con
   }
   const int16_t X_OFFSET_ITEM = 6 + xMarginItem;
   const int16_t SIZE_ITEM = (6 + 2);
-  const int16_t WIDTH_BAR = this->nbItems * SIZE_ITEM;
+  const int16_t WIDTH_BAR = ( this->nbItems * SIZE_ITEM );
   const int16_t X_RELATIVE_POSITION = ( .5 * (SCREEN_WIDTH - WIDTH_BAR) );
   int16_t xTotalOffset = 0;
   if(itPage > 0) {

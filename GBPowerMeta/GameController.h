@@ -1,8 +1,10 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 20/02/2022
+// updated at: 24/02/2022
 
 #pragma once
+
+#include <Arduino.h>
 
 #include "Constants.h"
 #include "GameBoard.h"
@@ -37,6 +39,7 @@ class GameController {
   public:
     GameController();
     void initialize();
+    void initializeMenu(uint8_t * menuPauseItems, size_t nbItemsPause);
     void run();
     void newRound();
     void setSettingController(SettingController * aSettingController);

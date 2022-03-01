@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 17/02/2022
+// updated at: 24/02/2022
 
 #pragma once
 
@@ -29,5 +29,6 @@ class PowerMetaApp {
   public:
     PowerMetaApp();
     void initialize();
+    void initializeMenu(uint8_t * menuHomeItems, size_t nbItemsHome, uint8_t * menuPauseItems, size_t nbItemsPause);
     void run();
 };

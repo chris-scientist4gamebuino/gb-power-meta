@@ -1,8 +1,7 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 20/02/2022
+// updated at: 24/02/2022
 
-#include <Arduino.h>
 #include <Gamebuino-Meta.h>
 
 #include "GameController.h"
@@ -17,12 +16,6 @@ GameController::GameController()
   this->commands.setGameController(this);
   this->lastPlayerToStart = NULL;
   //
-  // Initialisation du menu pause  
-  this->menuPause.initialize(3, MenuUI::PAUSE_ICON_INDEX);
-  this->menuPause.setActive(MenuUI::PLAY_ITEM_INDEX, MenuUI::FIRST_PAGE_INDEX);
-  this->menuPause.setActive(MenuUI::SETTINGS_ITEM_INDEX, MenuUI::SECOND_PAGE_INDEX);
-  this->menuPause.setActive(MenuUI::HOME_ITEM_INDEX, MenuUI::THIRD_PAGE_INDEX);
-  //
   // Intialisation de la boite de dialogue
   this->quitGameDialog.initialize(ADialogBox::NO_ITEM_CHOICE);
   this->quitGameDialog.setYPositionActionButton( .5 * SCREEN_HEIGHT );
@@ -35,6 +28,10 @@ void GameController::initialize() {
   this->round.reset();
   this->newRound();
   this->state.triggerNextRound(); // Pour être rediriger sur l'écran de récapitulatif du round
+}
+
+void GameController::initializeMenu(uint8_t * menuPauseItems, size_t nbItemsPause) {
+  this->menuPause.initialize(menuPauseItems, nbItemsPause, MenuUI::PAUSE_ICON_INDEX);
 }
 
 void GameController::run() {

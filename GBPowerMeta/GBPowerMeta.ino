@@ -1,11 +1,14 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 19/02/2022
+// updated at: 24/02/2022
 
 #include <Gamebuino-Meta.h>
 #include "Constants.h"
 #include "PowerMetaApp.h"
 #include "Debug.h"
+
+uint8_t menuHomeItems[2] = {MenuUI::PLAY_2P_ITEM_INDEX, MenuUI::SETTINGS_ITEM_INDEX};
+uint8_t menuPauseItems[3] = {MenuUI::PLAY_ITEM_INDEX, MenuUI::SETTINGS_ITEM_INDEX, MenuUI::HOME_ITEM_INDEX};
 
 PowerMetaApp app;
 
@@ -14,6 +17,10 @@ void setup() {
   gb.display.setPalette(PALETTE);
   Debug::getInstance()->initialize();
   app.initialize();
+  app.initializeMenu(
+    menuHomeItems, sizeof(menuHomeItems) / sizeof(menuHomeItems[0]), 
+    menuPauseItems, sizeof(menuPauseItems) / sizeof(menuPauseItems[0])
+  );
 }
 
 void loop() {

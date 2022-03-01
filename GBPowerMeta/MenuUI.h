@@ -11,7 +11,6 @@ class MenuUI {
     static const bool ITEM_SELECTED;
 
     uint8_t currentPageIndex;
-    uint8_t nbItems;
     int16_t iconFrameIndex;
     bool isItemSelectedFlag;
 
@@ -19,10 +18,8 @@ class MenuUI {
   protected:
     static const bool IS_REVERSE_IMAGE;
 
-    uint8_t firstItemIndex;
-    uint8_t secondItemIndex;
-    uint8_t thirdItemIndex;
-    uint8_t fourthItemIndex;
+    uint8_t * items;
+    size_t nbItems;
 
     const uint8_t getCurrentItemIndex() const;
     const int16_t computePositionForNavigationItem(const uint8_t itPage, const bool isReverseImageFlag) const;
@@ -45,12 +42,6 @@ class MenuUI {
     static const uint8_t SETTINGS_ITEM_INDEX;
     static const uint8_t HOME_ITEM_INDEX;
 
-    static const int8_t DESACTIVE_PAGE_INDEX;
-    static const int8_t FIRST_PAGE_INDEX;
-    static const int8_t SECOND_PAGE_INDEX;
-    static const int8_t THIRD_PAGE_INDEX;
-    static const int8_t FOURTH_PAGE_INDEX;
-
     static const int16_t HOME_ICON_INDEX;
     static const int16_t PAUSE_ICON_INDEX;
 
@@ -60,14 +51,9 @@ class MenuUI {
     MenuUI();
 
     /**
-     * Initialize nbItems and iconFrameIndex.
+     * Initialize aItems and iconFrameIndex.
      */  
-    void initialize(uint8_t aNbItems, int16_t anIconFrameIndex);
-
-    /**
-     * Active an item : set a valid and unique page index.
-     */
-    void setActive(const uint8_t anItemIndex, const int8_t aPageIndex);
+    void initialize(uint8_t * anItems, size_t aNbItems, int16_t anIconFrameIndex);
 
     /**
      * Manage commands of menu.
