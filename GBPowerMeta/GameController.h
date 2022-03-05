@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 24/02/2022
+// updated at: 05/03/2022
 
 #pragma once
 
@@ -38,7 +38,7 @@ class GameController {
     Player * getPlayerToStart();
   public:
     GameController();
-    void initialize();
+    void initialize(const uint8_t anInitialColorForPlayerOne);
     void initializeMenu(uint8_t * menuPauseItems, size_t nbItemsPause);
     void run();
     void newRound();

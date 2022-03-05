@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 24/02/2022
+// updated at: 05/03/2022
 
 #pragma once
 
@@ -8,6 +8,7 @@
 #include "SettingController.h"
 #include "EndGameController.h"
 #include "TimeController.h"
+#include "GameSetup.h"
 #include "MenuUI.h"
 #include "AppState.h"
 
@@ -17,10 +18,12 @@ class PowerMetaApp {
     SettingController settingController;
     EndGameController endGameController;
     TimeController timeController;
+    GameSetup setupGameUI;
     MenuUI menu;
     AppState appState;
 
     void home();
+    void setupGame();
     void initializeGame();
     void game();
     void endGame();

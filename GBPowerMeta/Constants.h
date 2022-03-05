@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 19/02/2022
+// updated at: 05/03/2022
 
 #ifndef POWER_META_CONSTANTS
 #define POWER_META_CONSTANTS
@@ -14,6 +14,7 @@
 #define RED_TOKEN 1
 #define YELLOW_TOKEN 2
 #define UNDEFINED_TOKEN 3
+#define RANDOM_TOKEN 4
 
 #define NB_COL_OF_BOARD 7
 #define NB_ROW_OF_BOARD 6

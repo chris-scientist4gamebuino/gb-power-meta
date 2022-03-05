@@ -21,8 +21,9 @@ GameController::GameController()
   this->quitGameDialog.setYPositionActionButton( .5 * SCREEN_HEIGHT );
 }
 
-void GameController::initialize() {
-  uint8_t tokenForPlayerOne = (random(0,65635) % 2 == 0 ? YELLOW_TOKEN : RED_TOKEN);
+void GameController::initialize(const uint8_t anInitialColorForPlayerOne) {
+  uint8_t randomToken = (random(0,65635) % 2 == 0 ? YELLOW_TOKEN : RED_TOKEN);
+  uint8_t tokenForPlayerOne = (anInitialColorForPlayerOne == RANDOM_TOKEN ? randomToken : anInitialColorForPlayerOne);
   this->playerOne.setToken(tokenForPlayerOne);
   this->playerTwo.setToken(tokenForPlayerOne == (uint8_t)YELLOW_TOKEN ? RED_TOKEN : YELLOW_TOKEN);
   this->round.reset();

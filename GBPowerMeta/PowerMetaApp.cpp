@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 24/02/2022
+// updated at: 05/03/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -24,11 +24,12 @@ void PowerMetaApp::initializeMenu(uint8_t * menuHomeItems, size_t nbItemsHome, u
 }
 
 void PowerMetaApp::run() {
-  if(this->appState.isHome()) {         this->home(); }
-  else if(this->appState.isRunGame()) { this->initializeGame(); }
-  else if(this->appState.isGame()) {    this->game(); }
-  else if(this->appState.isEndGame()) { this->endGame(); }
-  else if(this->appState.isSetting()) { this->setting(); }
+  if(this->appState.isHome()) {             this->home(); }
+  else if(this->appState.isSetupGame()) {   this->setupGame(); }
+  else if(this->appState.isRunGame()) {     this->initializeGame(); }
+  else if(this->appState.isGame()) {        this->game(); }
+  else if(this->appState.isEndGame()) {     this->endGame(); }
+  else if(this->appState.isSetting()) {     this->setting(); }
 }
 
 void PowerMetaApp::home() {
@@ -36,12 +37,24 @@ void PowerMetaApp::home() {
   this->menu.manageCommands();
   this->menu.rendering();
   
-  if(this->menu.isPlayTwoPlayerItem()) {    this->appState.triggerRunGame(); }
+  if(this->menu.isPlayTwoPlayerItem()) {    this->setupGameUI.reset();
+                                            this->appState.triggerSetupGame(); 
+  }
   else if(this->menu.isSettingsItem()) {    this->goToSetting(); }
 }
 
+void PowerMetaApp::setupGame() {
+  this->setupGameUI.manageCommands();
+  this->setupGameUI.rendering();
+
+  if(this->setupGameUI.isChoosed()) {           this->appState.triggerRunGame(); }
+  else if(this->setupGameUI.isGoToBack()) {     this->menu.reset();
+                                                this->appState.triggerGoToHome();
+  }
+}
+
 void PowerMetaApp::initializeGame() {
-  this->gameController.initialize();
+  this->gameController.initialize( this->setupGameUI.getCurrentColorForPlayerOne() );
   this->appState.triggerGoToGame();
 }
 
