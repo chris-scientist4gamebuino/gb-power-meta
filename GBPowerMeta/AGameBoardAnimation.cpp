@@ -1,17 +1,18 @@
 // author: chris-scientist
 // created at: 16/01/2022
+// updated at: 10/03/2022
 
-#include "AAnimation.h"
+#include "AGameBoardAnimation.h"
 
-AAnimation::AAnimation() {
+AGameBoardAnimation::AGameBoardAnimation() {
   this->reset();  
 }
 
-void AAnimation::reset() {
+void AGameBoardAnimation::reset() {
   this->isTriggered = false;
 }
 
-void AAnimation::run() {
+void AGameBoardAnimation::run() {
   if( ! this->isTriggered ) {
     this->initialize();
     this->isTriggered = true;
@@ -20,6 +21,6 @@ void AAnimation::run() {
   }
 }
 
-void AAnimation::setGameBoardModel(GameBoard * aGameBoardModel) {
+void AGameBoardAnimation::setGameBoardModel(GameBoard * aGameBoardModel) {
   this->gameBoardModel = aGameBoardModel;
 }

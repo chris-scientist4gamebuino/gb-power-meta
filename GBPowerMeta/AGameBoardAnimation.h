@@ -1,5 +1,6 @@
 // author: chris-scientist
 // created at: 16/01/2022
+// updated at: 10/03/2022
 
 #pragma once
 
@@ -7,7 +8,7 @@
 
 #include "GameBoard.h"
 
-class AAnimation {
+class AGameBoardAnimation {
   private:
     bool isTriggered;
   protected:
@@ -15,7 +16,7 @@ class AAnimation {
     virtual void initialize() = 0;
     virtual void nextStep() = 0;
   public:
-    AAnimation();
+    AGameBoardAnimation();
     void reset();
     void run();
     void setGameBoardModel(GameBoard * aGameBoardModel);

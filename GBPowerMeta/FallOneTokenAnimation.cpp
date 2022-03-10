@@ -1,13 +1,13 @@
 // author: chris-scientist
 // created at: 17/01/2022
-// updated at: 23/01/2022
+// updated at: 10/03/2022
 
 #include "FallOneTokenAnimation.h"
 
 #include "Debug.h"
 
 FallOneTokenAnimation::FallOneTokenAnimation() :
-  AAnimation()
+  AGameBoardAnimation()
 {
   this->token = NULL;
   this->boardModel = NULL;

@@ -1,14 +1,15 @@
 // author: chris-scientist
 // created at: 23/01/2022
+// updated at: 10/03/2022
 
 #pragma once
 
-#include "AAnimation.h"
+#include "AGameBoardAnimation.h"
 #include "TokenDuringTheGame.h"
 #include "GameBoard.h"
 #include "GameState.h"
 
-class FallOneTokenAnimation : public AAnimation {
+class FallOneTokenAnimation : public AGameBoardAnimation {
   private:
     TokenDuringTheGame * token;
     GameBoard * boardModel;

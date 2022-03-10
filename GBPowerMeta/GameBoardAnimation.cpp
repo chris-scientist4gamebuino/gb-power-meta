@@ -1,13 +1,13 @@
 // author: chris-scientist
 // created at: 15/01/2022
-// updated at: 16/01/2022
+// updated at: 10/03/2022
 
 #include "GameBoardAnimation.h"
 
 #include "GameToken.h"
 
 GameBoardAnimation::GameBoardAnimation() : 
-  AAnimation()
+  AGameBoardAnimation()
 {}
 
 void GameBoardAnimation::initialize() {
