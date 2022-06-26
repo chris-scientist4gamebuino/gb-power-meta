@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 05/03/2022
+// updated at: 10/03/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -30,6 +30,12 @@ void PowerMetaApp::run() {
   else if(this->appState.isGame()) {        this->game(); }
   else if(this->appState.isEndGame()) {     this->endGame(); }
   else if(this->appState.isSetting()) {     this->setting(); }
+  else if(this->appState.isCredits()) {     this->credits(); }
+}
+
+void PowerMetaApp::goToHome() {
+  this->menu.reset();
+  this->appState.triggerGoToHome();
 }
 
 void PowerMetaApp::home() {
@@ -41,6 +47,7 @@ void PowerMetaApp::home() {
                                             this->appState.triggerSetupGame(); 
   }
   else if(this->menu.isSettingsItem()) {    this->goToSetting(); }
+  else if(this->menu.isCreditsItem()) {     this->goToCredits(); }
 }
 
 void PowerMetaApp::setupGame() {
@@ -48,9 +55,7 @@ void PowerMetaApp::setupGame() {
   this->setupGameUI.rendering();
 
   if(this->setupGameUI.isChoosed()) {           this->appState.triggerRunGame(); }
-  else if(this->setupGameUI.isGoToBack()) {     this->menu.reset();
-                                                this->appState.triggerGoToHome();
-  }
+  else if(this->setupGameUI.isGoToBack()) {     this->goToHome(); }
 }
 
 void PowerMetaApp::initializeGame() {
@@ -64,8 +69,7 @@ void PowerMetaApp::game() {
     this->endGameController.initialize();
     this->appState.triggerEndGame();
   } else if(this->gameController.getState()->isStopTheGame()) {
-    this->menu.reset();
-    this->appState.triggerGoToHome();
+    this->goToHome();
   } else if(this->gameController.getState()->isGoToSettings()) {
     this->goToSetting();
   }
@@ -75,10 +79,7 @@ void PowerMetaApp::endGame() {
   // End Game Screen
   this->endGameController.run();
   // Waiting loop
-  if(this->endGameController.getState().isGoToHome()) {
-    this->menu.reset();
-    this->appState.triggerGoToHome();
-  }
+  if(this->endGameController.getState().isGoToHome()) {   this->goToHome(); }
 }
 
 void PowerMetaApp::goToSetting() {
@@ -88,4 +89,14 @@ void PowerMetaApp::goToSetting() {
 
 void PowerMetaApp::setting() {
   this->settingController.run();
+}
+
+void PowerMetaApp::goToCredits() {
+  this->creditsController.initialize();
+  this->appState.triggerGoToCredits();
+}
+
+void PowerMetaApp::credits() {
+  this->creditsController.run();
+  if(this->creditsController.isFinished()) {    this->goToHome(); }
 }

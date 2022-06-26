@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 05/03/2022
+// updated at: 10/03/2022
 
 #include "AppState.h"
 
@@ -11,6 +11,7 @@ const uint8_t AppState::RUN_GAME_INDEX      = 3;
 const uint8_t AppState::GAME_INDEX          = 4;
 const uint8_t AppState::END_GAME_INDEX      = 5;
 const uint8_t AppState::SETTING_INDEX       = 6;
+const uint8_t AppState::CREDITS_INDEX       = 7;
 
 AppState::AppState() : 
   previousStateIndex(AppState::NO_STATE_INDEX),
@@ -43,6 +44,10 @@ void AppState::triggerGoToSetting() {
   this->updateState(AppState::SETTING_INDEX);
 }
 
+void AppState::triggerGoToCredits() {
+  this->updateState(AppState::CREDITS_INDEX);
+}
+
 void AppState::triggerGoToBack() {
   this->currentStateIndex = this->previousStateIndex;
 }
@@ -60,3 +65,4 @@ const bool AppState::isRunGame() const {      return this->isCurrentState(AppSta
 const bool AppState::isGame() const {         return this->isCurrentState(AppState::GAME_INDEX); }
 const bool AppState::isEndGame() const {      return this->isCurrentState(AppState::END_GAME_INDEX); }
 const bool AppState::isSetting() const {      return this->isCurrentState(AppState::SETTING_INDEX); }
+const bool AppState::isCredits() const {      return this->isCurrentState(AppState::CREDITS_INDEX); }

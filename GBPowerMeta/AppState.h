@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 05/03/2022
+// updated at: 10/03/2022
 
 #pragma once
 
@@ -15,6 +15,7 @@ class AppState {
     static const uint8_t GAME_INDEX;
     static const uint8_t END_GAME_INDEX;
     static const uint8_t SETTING_INDEX;
+    static const uint8_t CREDITS_INDEX;
 
     uint8_t previousStateIndex;
     uint8_t currentStateIndex;
@@ -30,6 +31,7 @@ class AppState {
     void triggerGoToGame();
     void triggerEndGame();
     void triggerGoToSetting();
+    void triggerGoToCredits();
     void triggerGoToBack();
 
     const bool isHome() const;
@@ -38,4 +40,5 @@ class AppState {
     const bool isGame() const;
     const bool isEndGame() const;
     const bool isSetting() const;
+    const bool isCredits() const;
 };

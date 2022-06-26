@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 17/02/2022
-// updated at: 20/02/2022
+// updated at: 10/03/2022
 
 #pragma once
 
@@ -34,6 +34,7 @@ class MenuUI {
     const bool isCurrentChoicePlayOnePlayerItem() const;
     const bool isCurrentChoiceSettingsItem() const;
     const bool isCurrentChoiceHomeItem() const;
+    const bool isCurrentChoiceCreditsItem() const;
   public:
     static const uint8_t NO_ITEM_INDEX;
     static const uint8_t PLAY_ITEM_INDEX;
@@ -41,6 +42,7 @@ class MenuUI {
     static const uint8_t PLAY_1P_ITEM_INDEX;
     static const uint8_t SETTINGS_ITEM_INDEX;
     static const uint8_t HOME_ITEM_INDEX;
+    static const uint8_t CREDITS_ITEM_INDEX;
 
     static const int16_t HOME_ICON_INDEX;
     static const int16_t PAUSE_ICON_INDEX;
@@ -76,4 +78,5 @@ class MenuUI {
     const bool isPlayOnePlayerItem() const;
     const bool isSettingsItem() const;
     const bool isHomeItem() const;
+    const bool isCreditsItem() const;
 };
