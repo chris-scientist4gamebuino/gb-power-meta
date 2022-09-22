@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 10/03/2022
+// updated at: 23/09/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -42,6 +42,15 @@ void PowerMetaApp::home() {
   // Home Screen
   this->menu.manageCommands();
   this->menu.rendering();
+  // Draw game version
+  char versionText[] = "Beta-1.0.0";
+  size_t lengthVersion = sizeof(versionText) / sizeof(*versionText);
+  gb.display.setFontSize(1);
+  uint8_t wVersion = gb.display.getFontWidth();
+  uint8_t hVersion = gb.display.getFontHeight();
+  gb.display.setCursor( ( ( SCREEN_WIDTH - ( wVersion * ( lengthVersion + 1 ) ) ) ), SCREEN_HEIGHT - ( 2 * hVersion ));
+  gb.display.setColor(MY_GREY);
+  gb.display.print(versionText);
   
   if(this->menu.isPlayTwoPlayerItem()) {    this->setupGameUI.reset();
                                             this->appState.triggerSetupGame(); 
