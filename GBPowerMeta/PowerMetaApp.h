@@ -1,9 +1,10 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 10/03/2022
+// updated at: 23/09/2022
 
 #pragma once
 
+#include "GBGameController.h"
 #include "GameController.h"
 #include "SettingController.h"
 #include "EndGameController.h"
@@ -15,6 +16,7 @@
 
 class PowerMetaApp {
   private:
+    GBGameController gbGameController;
     GameController gameController;
     SettingController settingController;
     EndGameController endGameController;
@@ -24,6 +26,8 @@ class PowerMetaApp {
     MenuUI menu;
     AppState appState;
 
+    void initGbGameScreen();
+    void gamebuinoGameScreen();
     void goToHome();
     void home();
     void setupGame();

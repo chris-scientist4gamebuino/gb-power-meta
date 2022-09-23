@@ -1,10 +1,12 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 10/03/2022
+// updated at: 23/09/2022
 
 #include "AppState.h"
 
 const uint8_t AppState::NO_STATE_INDEX      = 0;
+const uint8_t AppState::GB_GAME_INIT_INDEX  = 8;
+const uint8_t AppState::GB_GAME_INDEX       = 9;
 const uint8_t AppState::HOME_INDEX          = 1;
 const uint8_t AppState::SETUP_GAME_INDEX    = 2;
 const uint8_t AppState::RUN_GAME_INDEX      = 3;
@@ -17,7 +19,15 @@ AppState::AppState() :
   previousStateIndex(AppState::NO_STATE_INDEX),
   currentStateIndex(AppState::NO_STATE_INDEX)
 {
-  this->triggerGoToHome();
+  this->triggerGoToGamebuinoGame();
+}
+
+void AppState::triggerGoToGamebuinoGameInit() {
+  this->updateState(AppState::GB_GAME_INIT_INDEX);
+}
+
+void AppState::triggerGoToGamebuinoGame() {
+  this->updateState(AppState::GB_GAME_INDEX);
 }
 
 void AppState::triggerGoToHome() {
@@ -59,10 +69,12 @@ void AppState::updateState(const uint8_t aNewState) {
 
 const bool AppState::isCurrentState(const uint8_t aState) const { return ( this->currentStateIndex == aState ); }
 
-const bool AppState::isHome() const {         return this->isCurrentState(AppState::HOME_INDEX); }
-const bool AppState::isSetupGame() const {    return this->isCurrentState(AppState::SETUP_GAME_INDEX); }
-const bool AppState::isRunGame() const {      return this->isCurrentState(AppState::RUN_GAME_INDEX); }
-const bool AppState::isGame() const {         return this->isCurrentState(AppState::GAME_INDEX); }
-const bool AppState::isEndGame() const {      return this->isCurrentState(AppState::END_GAME_INDEX); }
-const bool AppState::isSetting() const {      return this->isCurrentState(AppState::SETTING_INDEX); }
-const bool AppState::isCredits() const {      return this->isCurrentState(AppState::CREDITS_INDEX); }
+const bool AppState::isGamebuinoGameInit() const {  return this->isCurrentState(AppState::GB_GAME_INIT_INDEX); }
+const bool AppState::isGamebuinoGame() const {      return this->isCurrentState(AppState::GB_GAME_INDEX); }
+const bool AppState::isHome() const {               return this->isCurrentState(AppState::HOME_INDEX); }
+const bool AppState::isSetupGame() const {          return this->isCurrentState(AppState::SETUP_GAME_INDEX); }
+const bool AppState::isRunGame() const {            return this->isCurrentState(AppState::RUN_GAME_INDEX); }
+const bool AppState::isGame() const {               return this->isCurrentState(AppState::GAME_INDEX); }
+const bool AppState::isEndGame() const {            return this->isCurrentState(AppState::END_GAME_INDEX); }
+const bool AppState::isSetting() const {            return this->isCurrentState(AppState::SETTING_INDEX); }
+const bool AppState::isCredits() const {            return this->isCurrentState(AppState::CREDITS_INDEX); }

@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 05/03/2022
+// updated at: 23/09/2022
 
 #ifndef POWER_META_CONSTANTS
 #define POWER_META_CONSTANTS
@@ -28,8 +28,8 @@ const Color PALETTE[] = {
     (Color) 0xb145, // 0x4
     (Color) 0xed60, // 0x5
     (Color) 0x2d85, // 0x6
-    (Color) 0x0000, // 0x7
-    (Color) 0x0000, // 0x8
+    (Color) 0xe466, // 0x7
+    (Color) 0xffff, // 0x8
     (Color) 0x0000, // 0x9
     (Color) 0x0000, // 0xa
     (Color) 0x0000, // 0xb

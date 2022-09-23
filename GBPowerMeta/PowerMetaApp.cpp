@@ -11,7 +11,7 @@
 PowerMetaApp::PowerMetaApp() {}
 
 void PowerMetaApp::initialize() {
-  this->appState.triggerGoToHome();
+  this->appState.triggerGoToGamebuinoGameInit();
   this->settingController.setAppState( &(this->appState) );
   this->settingController.setMenu( &(this->menu) );
   this->gameController.setSettingController( &(this->settingController) );
@@ -24,13 +24,27 @@ void PowerMetaApp::initializeMenu(uint8_t * menuHomeItems, size_t nbItemsHome, u
 }
 
 void PowerMetaApp::run() {
-  if(this->appState.isHome()) {             this->home(); }
-  else if(this->appState.isSetupGame()) {   this->setupGame(); }
-  else if(this->appState.isRunGame()) {     this->initializeGame(); }
-  else if(this->appState.isGame()) {        this->game(); }
-  else if(this->appState.isEndGame()) {     this->endGame(); }
-  else if(this->appState.isSetting()) {     this->setting(); }
-  else if(this->appState.isCredits()) {     this->credits(); }
+  if(this->appState.isGamebuinoGameInit()) {      this->initGbGameScreen(); }
+  else if(this->appState.isGamebuinoGame()) {     this->gamebuinoGameScreen(); }
+  else if(this->appState.isHome()) {              this->home(); }
+  else if(this->appState.isSetupGame()) {         this->setupGame(); }
+  else if(this->appState.isRunGame()) {           this->initializeGame(); }
+  else if(this->appState.isGame()) {              this->game(); }
+  else if(this->appState.isEndGame()) {           this->endGame(); }
+  else if(this->appState.isSetting()) {           this->setting(); }
+  else if(this->appState.isCredits()) {           this->credits(); }
+}
+
+void PowerMetaApp::initGbGameScreen() {
+  this->gbGameController.initialize();
+  this->appState.triggerGoToGamebuinoGame();
+}
+
+void PowerMetaApp::gamebuinoGameScreen() {
+  this->gbGameController.run();
+  if(this->gbGameController.isFinished()) {
+    this->appState.triggerGoToHome();
+  }
 }
 
 void PowerMetaApp::goToHome() {
