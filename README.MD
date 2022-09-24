@@ -12,6 +12,8 @@ Il s'agit d'une version de poche, on peut également dire numérique, du jeu `Pu
 Dans cette version pas d'entraîtement possible contre votre (Gamebuino) META.
 Ici le jeu est pensé pour être joué à deux sur la même META.
 
+[Manuel d'utilisation (en suivant le lien)](man/fr/README.MD)
+
 Amusez-vous bien, et que le meilleur gagne !
 
 ## Pourquoi s'agit-il d'une beta ?

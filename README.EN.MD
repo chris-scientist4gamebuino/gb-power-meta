@@ -12,6 +12,8 @@ It is a pocket version, we can also say digital, of the `Connect 4` game.
 In this version no training is possible against your (Gamebuino) META.
 Here the game is designed to be played by two people on the same META.
 
+[User manual (french only for now)](man/fr/README.MD)
+
 Have fun, and may the best one win!
 
 ## Why is this a beta ?
