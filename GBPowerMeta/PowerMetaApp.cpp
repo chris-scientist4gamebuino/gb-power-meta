@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 10/02/2022
-// updated at: 23/09/2022
+// updated at: 24/09/2022
 
 #include <Gamebuino-Meta.h>
 
@@ -14,6 +14,7 @@ void PowerMetaApp::initialize() {
   this->appState.triggerGoToGamebuinoGameInit();
   this->settingController.setAppState( &(this->appState) );
   this->settingController.setMenu( &(this->menu) );
+  this->settingController.loadSetting();
   this->gameController.setSettingController( &(this->settingController) );
   this->endGameController.setGameController( &(this->gameController) );
 }

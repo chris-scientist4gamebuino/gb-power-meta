@@ -16,7 +16,7 @@ void SettingCommands::management() {
   bool isGetInput = true;
   if(gb.buttons.pressed(BUTTON_LEFT)) {         this->tmpSettingModel.reverseOff(); }
   else if(gb.buttons.pressed(BUTTON_RIGHT)) {   this->tmpSettingModel.reverseOn(); }
-  else if(gb.buttons.pressed(BUTTON_A)) {       this->settingState->triggerValidCommandAndGoToBack();
+  else if(gb.buttons.pressed(BUTTON_A)) {       this->settingState->triggerValidCommand();
                                                 isGetInput = false;
   }
   else if(gb.buttons.pressed(BUTTON_B)) {       this->settingState->triggerResetTmpCommand();

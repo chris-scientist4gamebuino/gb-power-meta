@@ -1,6 +1,6 @@
 // author: chris-scientist
 // created at: 14/01/2022
-// updated at: 10/03/2022
+// updated at: 23/09/2022
 
 #include <Gamebuino-Meta.h>
 #include "Constants.h"
@@ -30,9 +30,9 @@ void loop() {
   // Run the game
   app.run();
   // RAM
-  uint16_t ram = gb.getFreeRam();
+  /*uint16_t ram = gb.getFreeRam();
   gb.display.setFontSize(1);
   gb.display.setCursor(0,50);
   gb.display.setColor(MY_GREY);
-  gb.display.print(ram);
+  gb.display.print(ram);*/
 }

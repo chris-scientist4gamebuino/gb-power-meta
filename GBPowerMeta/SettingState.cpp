@@ -1,5 +1,6 @@
 // author: chris-scientist
 // created at: 11/02/2022
+// updated at: 24/09/2022
 
 #include "SettingState.h"
 
@@ -12,9 +13,9 @@ void SettingState::triggerGetInput() {
   this->isGetInputFlag = true;
 }
 
-void SettingState::triggerValidCommandAndGoToBack() {
+void SettingState::triggerValidCommand() {
   this->reset();
-  this->isValidCommandAndGoToBackFlag = true;
+  this->isValidCommandFlag = true;
 }
 
 void SettingState::triggerResetTmpCommand() {
@@ -22,12 +23,26 @@ void SettingState::triggerResetTmpCommand() {
   this->isResetTmpCommandFlag = true;
 }
 
-void SettingState::reset() {
-  this->isGetInputFlag = false;
-  this->isValidCommandAndGoToBackFlag = false;
-  this->isResetTmpCommandFlag = false;
+void SettingState::triggerWaitingFeedback() {
+  this->reset();
+  this->isWaitingFeedbackFlag = true;
 }
 
-const bool SettingState::isGetInput() const {                  return this->isGetInputFlag; }
-const bool SettingState::isValidCommandAndGoToBack() const {  return this->isValidCommandAndGoToBackFlag; }
-const bool SettingState::isResetTmpCommand() const {          return this->isResetTmpCommandFlag; }
+void SettingState::triggerGoToBack() {
+  this->reset();
+  this->isGoToBackFlag = true;
+}
+
+void SettingState::reset() {
+  this->isGetInputFlag = false;
+  this->isValidCommandFlag = false;
+  this->isResetTmpCommandFlag = false;
+  this->isWaitingFeedbackFlag = false;
+  this->isGoToBackFlag = false;
+}
+
+const bool SettingState::isGetInput() const {           return this->isGetInputFlag; }
+const bool SettingState::isValidCommand() const {       return this->isValidCommandFlag; }
+const bool SettingState::isResetTmpCommand() const {    return this->isResetTmpCommandFlag; }
+const bool SettingState::isWaitingFeedback() const {    return this->isWaitingFeedbackFlag; }
+const bool SettingState::isGoToBack() const {           return this->isGoToBackFlag; }
